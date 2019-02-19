@@ -1,5 +1,16 @@
 # 190218_DublinBikeScraper.py
 
+"""
+Needed to run script in background
+Need to chmod +x script for this to work
+Execute script with python3
+Send to background with ctrl+z
+Run in background with bg cmd
+Note file path may be different depending on how env is set up
+
+"""
+#!//home/ubuntu/anaconda3/envs/comp30830/bin python3.7
+
 from requests import get
 from json import loads
 import sqlalchemy as sql

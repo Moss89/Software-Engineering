@@ -20,10 +20,11 @@ connection = engine.connect()
 
 # Create static and Dynamic Tables
 create_static = "CREATE TABLE DbStaticInfo (number int primary key, " \
-               "name varchar(50), address varchar(50), lat float(8,6), lng float(7,6))"
+               "name varchar(50), address varchar(50), lat float(8,6), lng float(7,6), " \
+                "bikestands int)"
 
 create_dynamic = "CREATE TABLE DbDynamicInfo (id int primary key auto_increment, " \
-                 "number int, status varchar(20), bikestands int, " \
+                 "number int, status varchar(20), " \
                  "available_bike_stands int, available_bikes int, last_update datetime, " \
                  "CONSTRAINT FK_number FOREIGN KEY (number) REFERENCES DbStaticInfo(number))"
 
@@ -32,8 +33,9 @@ connection.execute(create_dynamic)
 
 # Iterate over api_info, build SQL insert
 for i in api_info:
-    insert = 'INSERT INTO DbStaticInfo VALUES (%d,"%s","%s",%.6f,%.6f)' \
-             % (i["number"],i["name"],i["address"],i["position"]["lat"],i["position"]["lng"])
+    insert = 'INSERT INTO DbStaticInfo VALUES (%d,"%s","%s",%.6f,%.6f,%d)' \
+             % (i["number"],i["name"],i["address"],i["position"]["lat"],i["position"]["lng"],
+                i["bike_stands"])
 
     # Execute SQL command
     connection.execute(insert)
@@ -44,7 +46,7 @@ with open("DbStaticInfoBackUp.csv", "a") as csv_file:
     writer = csv.writer(csv_file)
     for i in api_info:
         writeRow = [i["number"],i["name"],i["address"],i["position"]["lat"],\
-                i["position"]["lng"]]
+                i["position"]["lng"],i["bike_stands"]]
         writer.writerow(writeRow)
 
 # Close sql connection

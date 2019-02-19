@@ -34,10 +34,10 @@ def writesql():
     # Iterate over api_info, build SQL insert
     for i in api_info:
         time = datetime.utcfromtimestamp(i["last_update"]/1000).strftime("%Y-%m-%d %H:%M:%S")
-        insert = 'INSERT INTO DbDynamicInfo (number, status, bikestands, available_bike_stands, ' \
+        insert = 'INSERT INTO DbDynamicInfo (number, status, available_bike_stands, ' \
                  'available_bikes, last_update) ' \
-                 'VALUES (%d,"%s",%d,%d,%d,"%s")' \
-                 % (i["number"],i["status"],i["bike_stands"],i["available_bike_stands"],\
+                 'VALUES (%d,"%s",%d,%d,"%s")' \
+                 % (i["number"],i["status"],i["available_bike_stands"],\
                     i["available_bikes"], \
                     time)
 
@@ -52,8 +52,9 @@ def writesql():
         writer = csv.writer(csv_file)
         writer = csv.writer(csv_file)
         for i in api_info:
-            writeRow = [i["number"],i["status"],i["bike_stands"],i["available_bike_stands"],
-                    i["available_bikes"],i["last_update"]]
+            time = datetime.utcfromtimestamp(i["last_update"] / 1000).strftime("%Y-%m-%d %H:%M:%S")
+            writeRow = [i["number"],i["status"],i["available_bike_stands"],
+                    i["available_bikes"],time]
             writer.writerow(writeRow)
 
 # Main loop

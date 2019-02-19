@@ -5,6 +5,7 @@ from json import loads
 import sqlalchemy as sql
 import csv
 from time import sleep
+from datetime import datetime
 import traceback
 
 
@@ -28,12 +29,17 @@ def writesql():
     # Connect to SQL
     connection = engine.connect()
 
+
+
     # Iterate over api_info, build SQL insert
     for i in api_info:
-        insert = 'INSERT INTO DbDynamicInfo (number, status, bikestands, available_bike_stands, available_bikes, last_update) ' \
-                 'VALUES (%d,"%s",%d,%d,%d,%d)' \
-                 % (i["number"],i["status"],i["bike_stands"],i["available_bike_stands"],
-                    i["available_bikes"],i["last_update"])
+        time = datetime.utcfromtimestamp(i["last_update"]/1000).strftime("%Y-%m-%d %H:%M:%S")
+        insert = 'INSERT INTO DbDynamicInfo (number, status, bikestands, available_bike_stands, ' \
+                 'available_bikes, last_update) ' \
+                 'VALUES (%d,"%s",%d,%d,%d,"%s")' \
+                 % (i["number"],i["status"],i["bike_stands"],i["available_bike_stands"],\
+                    i["available_bikes"], \
+                    time)
 
         # Execute SQL command
         connection.execute(insert)

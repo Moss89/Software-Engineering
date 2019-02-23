@@ -48,8 +48,9 @@ def create_sql_write(api):
 
     inserts = []
 
+    time: str = datetime.utcfromtimestamp(info["last_update"] / 1000).strftime("%Y-%m-%d %H:%M:%S")
+
     for info in api:
-        time: str = datetime.utcfromtimestamp(info["last_update"]/1000).strftime("%Y-%m-%d %H:%M:%S")
         inserts.append('INSERT INTO DbDynamicInfo (number, status, available_bike_stands, '
                        'available_bikes, last_update) '
                        'VALUES (%d,"%s",%d,%d,"%s")'

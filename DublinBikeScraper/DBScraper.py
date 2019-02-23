@@ -15,7 +15,7 @@ from requests import get
 from json import loads
 import sqlalchemy as sql
 import csv
-from time import sleep
+import time
 from datetime import datetime
 import traceback
 
@@ -39,7 +39,7 @@ def probe_api():
     return info
 
 
-def create_sql_write(api):
+def create_sql_write(api,timer):
 
     """
     Takes API info as input
@@ -48,25 +48,23 @@ def create_sql_write(api):
 
     inserts = []
 
-    time: str = datetime.utcfromtimestamp(info["last_update"] / 1000).strftime("%Y-%m-%d %H:%M:%S")
-
     for info in api:
         inserts.append('INSERT INTO DbDynamicInfo (number, status, available_bike_stands, '
                        'available_bikes, last_update) '
                        'VALUES (%d,"%s",%d,%d,"%s")'
                        % (info["number"], info["status"], info["available_bike_stands"],
-                          info["available_bikes"], time))
+                          info["available_bikes"], timer))
 
     return inserts
 
 
-def write_to_database(info):
+def write_to_database(info,timer):
     """
     Takes SQL write as input
     Executes SQL write on database
     """
 
-    inserts = create_sql_write(info)
+    inserts = create_sql_write(info,timer)
 
     connection = engine.connect()
     for insert in inserts:
@@ -82,7 +80,6 @@ def build_csv_write(api):
 
     write_rows = []
     for info in api:
-        time = datetime.utcfromtimestamp(info["last_update"] / 1000).strftime("%Y-%m-%d %H:%M:%S")
         write_rows.append([info["number"], info["status"], info["available_bike_stands"],
                            info["available_bikes"], time])
 
@@ -107,8 +104,9 @@ while True:
     # try and except in case api down
     try:
         api_info = probe_api()
-        write_to_database(api_info)
+        timer = datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S")
+        write_to_database(api_info,timer)
         #write_to_csv_backup(api_info)
-        sleep(5*60)
+        time.sleep(5*60)
     except:
         print(traceback.format_exc())

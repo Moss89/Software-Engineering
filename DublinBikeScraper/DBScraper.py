@@ -107,7 +107,7 @@ while True:
     try:
         api_info = probe_api()
         write_to_database(api_info)
-        write_to_csv_backup(api_info)
+        #write_to_csv_backup(api_info)
         sleep(5*60)
     except:
         print(traceback.format_exc())

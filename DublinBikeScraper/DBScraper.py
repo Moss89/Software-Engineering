@@ -25,7 +25,7 @@ url = "https://api.jcdecaux.com/vls/v1/stations?contract=Dublin&apiKey=64f0cdd31
 
 # Create SQL engine
 # String:"mysql+pymysql://username:password@computer/database"
-engine = sql.create_engine("mysql+pymysql://jmcl:Jm30079!@dbbikes.ca8jj5ksuurt.eu-west-1.rds.amazonaws.com:3306/test")
+engine = sql.create_engine("mysql+pymysql://jmcl:Jm30079!@dbbikes.ca8jj5ksuurt.eu-west-1.rds.amazonaws.com:3306/dbbikes")
 
 
 def probe_api():

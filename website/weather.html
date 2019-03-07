@@ -15,17 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="weather.css">
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#picker').dateTimePicker();
-            $('#picker-no-time').dateTimePicker({
-                showTime: false,
-                dateFormat: 'DD/MM/YYYY'
-            });
-        })
-    </script>
-
-
 </head>
 
 <body>
@@ -54,22 +43,40 @@
             <div class="col-sm-4">
                 <div style="width: 250px">
                     <div id="picker"> </div>
-                     
+
+                    <p>Enter a date and time:</p>
                     <input type="hidden" id="result" value="" />
-                        
-                <img src="./images/weather.jpg" alt="weather" height="auto" width="100%">
-              
-                <div class="col-sm-1">
                 </div>
+
+                    <!--<div id="openweathermap-widget-12"></div>-->
+                </div>
+                <div class="col-sm-1">
+
             </div>
-        </div>
+
 
     </div>
     </div>
 
 </body>
 
-    
+<script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
+window.myWidgetParam.push({id: 12,cityid: '2964574',appid: '718d1e3d695907c31b9a4b710e8348f5',units:
+'metric',containerid: 'openweathermap-widget-12',  });  (function()
+{var script = document.createElement('script');script.async = true;script.charset = "utf-8";
+script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
+var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();</script>
+
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#picker').dateTimePicker();
+            $('#picker-no-time').dateTimePicker({
+                showTime: false,
+                dateFormat: 'DD/MM/YYYY'
+            });
+        })
+    </script>
 </html>
 
 

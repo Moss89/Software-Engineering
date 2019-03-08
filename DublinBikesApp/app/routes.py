@@ -1,4 +1,3 @@
-# Define URLs used by app
 from flask import render_template
 from app import app
 from app.models import DbStaticInfo
@@ -8,7 +7,6 @@ import helpers
 Create the different routes here
 """
 
-# Defines index URL
 @app.route("/")
 @app.route("/index")
 def index():

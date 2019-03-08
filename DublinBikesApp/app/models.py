@@ -1,11 +1,6 @@
 from app import db
 
 
-"""
-Create database table templates here
-"""
-
-
 class DbStaticInfo(db.Model):
     __tablename__ = "DbStaticInfo"
 

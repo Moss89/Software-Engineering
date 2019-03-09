@@ -4,35 +4,35 @@
 
 <div class="container-fluid">
 
-    <div class="row no-gutters">
+<!--    <div class="row no-gutters">
         <div class="col-sm-12">
-            <div style="height: 100%">
+            <div style="height: 10px">
                 <p></p>
             </div>
         </div>
     </div>
-
+-->
     <div class="row no-gutters">
-        <div class="col-sm-1">
-            </div>
-                <div class="col-sm-8">
+       <!-- <div class="col-sm-1">
+            </div> -->
+                <div class="col-sm-8 padding-0">
                     <div id="map"></div>
                 </div>
 
-                <div class="col-sm-3">
-                    <div class="col-sm-4">
+                <div class="col-sm-3 padding-0">
+                    <div class="col-sm-3 padding-0">
                         <div style="width: 230px; height: auto; background-color: white; border: 5px orange solid; border-radius: 6px">
                             <img src="{{url_for('static', filename='images/clock.png')}}" width="220px" />
-                            <input id="date" type="date">
-                            <input id="time" type="time">
-                            <input type="submit" width=100% onclick="Submit()">
-                            <div id="picker"> </div>
-                            <input type="hidden" id="result" value="" />
+                            <form action="/signUp" method="post" role="form" id="picker">
+                            <input type="date" name="date">
+                            <input type="time" name="time">
+                            <button class="btn btn-sm btn-primary btn-block" type="button">Submit</button>
+                            </form>
                         </div>
 
                         <div id="openweathermap-widget-12"></div>
                     </div>
-                    <div class="col-sm-1"></div>
+                 <!-- <div class="col-sm-1"></div> -->
                 </div>
     </div>
 </div>

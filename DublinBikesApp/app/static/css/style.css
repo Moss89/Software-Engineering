@@ -4,16 +4,20 @@ body {
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+  max-width: 100%;
+  margin: auto;
 }
 
-/*
+
 img {
-    max-width: none;
-   border:2px solid black;
-   background-color:grey;
+    max-width: 100%;
     display: block;
 }
-*/
+
+.logo{
+    max-width: 150px;
+}
+
 .container-fluid {
     padding-right:0;
     padding-left:0;
@@ -30,4 +34,17 @@ img {
 .row > [class*='col-'] {
 	 display: flex;
 	 flex-direction: column;
+}
+
+.padding-0{
+    padding-right:0;
+    padding-left:0;
+}
+
+.no-rounding{
+      border-radius: 0px;
+}
+
+.weather{
+
 }

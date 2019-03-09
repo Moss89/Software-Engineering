@@ -19,7 +19,7 @@ class DbDynamicInfo(db.Model):
     __tablename__ = "DbDynamicInfo"
 
     id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.Integer)
+    number = db.Column(db.Integer, db.ForeignKey("DbStaticInfo.number"))
     status = db.Column(db.String(20))
     available_bike_stands = db.Column(db.Integer)
     available_bikes = db.Column(db.Integer)

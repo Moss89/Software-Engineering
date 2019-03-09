@@ -14,16 +14,17 @@ def get_static_data(table):
     return results
 
 
-def get_dynamic_data(table):
+def get_dynamic_data(static_table, dynamic_table):
 
-    results = {"available_bikes": [], "available_bike_stands": []}
-    for i in range(len(table)):
-        results["available_bike_stands"].append(table[i].available_bike_stands)
+    results = {"available_bikes": [], "address": []}
+    for i in range(0,113):
+        results["address"].append(static_table[i].address)
+        results["available_bikes"].append(dynamic_table[i].available_bikes)
     return results
 
 
-def get_datetime():
-    if request.method == "POST":
-        submitted_datetime = request.get_json()
-        print(submitted_datetime)
-    return submitted_datetime
+def get_date_time():
+
+    date =  request.form['date'];
+    time = request.form['time'];
+    return jsonify(date, time)

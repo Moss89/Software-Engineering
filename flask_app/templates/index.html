@@ -34,7 +34,7 @@
             });
             //add listener to display window above marker
                 var infoWindow = new google.maps.InfoWindow({
-                content:'<h1>'+address+'<h1>'
+                content:'<h1>'+address+ '<br><h1>'
                 });
             marker.addListener('click',function() {
                 infoWindow.open(map, marker);
@@ -43,7 +43,9 @@
             {% for item in range(0,len) %}
             var position = {lat:{{lat[item]}},lng:{{lng[item]}}};
              
-           var specific_address =" {{address[item]}}"; addMarker(position,specific_address);
+           var specific_address =" {{address[item]}}"; 
+            //var availability = "{{bikes[item]}}";
+            addMarker(position,specific_address);
             {% endfor %}
         }
     </script>

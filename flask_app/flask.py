@@ -14,19 +14,21 @@ def connect_to_database():
     #Create a cursor object to query database
     cursor = cnx.cursor()
     #Create some basic sql commands.
-    sql = "Select address,lat,lng from DbStaticInfo"
+    sql = "SELECT DbStaticInfo.address,DbStaticInfo.lat,DbStaticInfo.lng,DbDynamicInfo.available_bikes FROM DbStaticInfo INNER JOIN DbDynamicInfo ON DbStaticInfo.number = DbDynamicInfo.number WHERE DbDynamicInfo.last_update = (SELECT MAX(DbDynamicInfo.last_update) FROM DbDynamicInfo);"
     try:
         cursor.execute(sql)
         results=cursor.fetchall()
         lat = []
         lng = []
         address = []
+        available_bikes = []
         for i in range(len(results)):
             #Obtaining the relevant information
-            address.append(results[i][0]) 
+            address.append(results[i][0])
             lat.append(results[i][1])
-            lng.append(results[i][2])  
-        return render_template('index.html',len=len(lat), lat=lat, lng=lng, address=address)
+            lng.append(results[i][2])
+            available_bikes.append(results[i][3])
+        return render_template('index.html',len=len(lat), lat=lat, lng=lng, address=address, available_bikes=available_bikes)
     except:
         print("Error:unable to fetch data.")
     cnx.close()

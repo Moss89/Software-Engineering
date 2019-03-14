@@ -72,7 +72,7 @@
             //Add map
             var map = new google.maps.Map(document.getElementById('map'),options);
             //Add marker function
-            function addMarker(coords,address){
+            function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown'){
                 //Add marker with custom icon at specified point
             var marker = new google.maps.Marker({
                 position:coords,
@@ -81,7 +81,7 @@
             });
             //add listener to display window above marker
                 var infoWindow = new google.maps.InfoWindow({
-                content:'<h1>'+address+'<h1>'
+                content:'<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'
                 });
             marker.addListener('click',function() {
                 infoWindow.open(map, marker);
@@ -90,7 +90,11 @@
             {% for item in range(0,len) %}
             var position = {lat:{{lat[item]}},lng:{{lng[item]}}};
 
-           var specific_address =" {{address[item]}}"; addMarker(position,specific_address);
+           var specific_address ="{{address[item]}}"; 
+            var bikestands = "{{bikestands[item]}}";
+           var available_bikes = "{{available_bikes[item]}}";
+            
+            addMarker(position,specific_address,bikestands,available_bikes);
             {% endfor %}
         }
     </script>

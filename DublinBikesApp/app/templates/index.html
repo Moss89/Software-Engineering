@@ -74,11 +74,31 @@
             //Add marker function
             function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown'){
                 //Add marker with custom icon at specified point
+                if (available_bikes=='Unknown') {
             var marker = new google.maps.Marker({
                 position:coords,
                 map:map,
-                icon:'http://maps.google.com/mapfiles/kml/shapes/cycling.png'
+                icon:'./static/images/green_markerC.png'
             });
+                } else if (available_bikes<10) {
+                    var marker = new google.maps.Marker({
+                position:coords,
+                map:map,
+                icon:'./static/images/green_markerC.png'
+            });
+                } else if (available_bikes<20) {
+                    var marker = new google.maps.Marker({
+                position:coords,
+                map:map,
+                icon:'./static/images/orange_markerC.png'
+            }); 
+                } else {
+                    var marker = new google.maps.Marker({
+                position:coords,
+                map:map,
+                icon:'./static/images/red_markerC.png'
+            });
+                }
             //add listener to display window above marker
                 var infoWindow = new google.maps.InfoWindow({
                 content:'<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'

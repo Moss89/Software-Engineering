@@ -17,11 +17,11 @@ def get_static_data(table):
 
 def get_dynamic_data(static_table, dynamic_table):
 
-    dynamic_results = {"available_bikes": [], "address": []}
+    results = {"available_bikes": [], "address": []}
     for i in range(0,113):
-        dynamic_results["address"].append(static_table[i].address)
-        dynamic_results["available_bikes"].append(dynamic_table[i].available_bikes)
-    return dynamic_results
+        results["address"].append(static_table[i].address)
+        results["available_bikes"].append(dynamic_table[i].available_bikes)
+    return results
 
 
 def get_date_time():

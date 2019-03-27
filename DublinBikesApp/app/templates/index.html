@@ -78,7 +78,7 @@
             var marker = new google.maps.Marker({
                 position:coords,
                 map:map,
-                icon:'./static/images/red_markerC.png'
+                icon:'./static/images/redf_markerC.png'
             });
                 } else if (available_bikes<10) {
                     var marker = new google.maps.Marker({
@@ -103,8 +103,9 @@
                 var infoWindow = new google.maps.InfoWindow({
                 content:'<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'
                 });
-            marker.addListener('click',function() {
+            marker.addListener(marker,'mouseover',function() {
                 infoWindow.open(map, marker);
+                setTimeout(function(){infowindow.close();}, '1000');
             });
             }
             {% for item in range(0,len) %}

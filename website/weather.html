@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -15,62 +16,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="weather.css">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/1.2/css/weather-icons.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
+
+
 </head>
 
 <body>
-<div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="row no-gutters">
-        <div class="col-4">
-            <img src="./images/logo.png" alt="logo" height="auto" width="50%">
-
-        </div>
-    </div>
-
-    <div class="row no-gutters">
-        <div class="col-sm-12">
-            <div style="height: 10%">
-                <p></p>
-            </div>
-        </div>
-    </div>
-    <div class="row no-gutters">
-        <div class="col-sm-1">
-        </div>
-        <div class="col-sm-6">
-            <img src="./images/map.png" alt="map" height="510px" width="100%">
-        </div>
-        <div class="col-sm-4">
-            <div style="width: 230px; height: auto; background-color: white; border: 5px orange solid; border-radius: 6px">
-                <img src="./images/clock.png" width="220px" height = "auto">
-                <div id="picker"> </div>
-
-
-                <input type="hidden" id="result" value="" />
+        <div class="row no-gutters">
+            <div class="col-4">
+                <img id="logo" src="./images/logo.png" alt="logo" height="auto" width="50%">
 
             </div>
-
-            <div id="openweathermap-widget-12"></div>
-        </div>
-        <div class="col-sm-1">
-
         </div>
 
+        <div class="row no-gutters">
+            <div class="col-sm-12">
+                <div style="height: 10%">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-6">
+                <img src="./images/map.png" alt="map" height="510px" width="100%">
+            </div>
+            <div class="col-sm-4">
+                <div style="width: 230px; height: auto; background-color: white; border: 5px orange solid; border-radius: 6px">
+                    <img src="./images/clock.png" width="220px" height="auto">
+                    <div id="picker"> </div>
 
+
+                    <input type="hidden" id="result" value="" />
+
+
+                </div>
+                <div id="weather_wrapper">
+                    <div class="weatherCard">
+                        <div class="currentTemp">
+                            <span class="temp"><span id="temp"></span>&deg;</span>
+                            <span class="location">Dublin</span>
+                        </div>
+                        <div class="currentWeather">
+                            <span class="conditions" id="image"></span>
+                            <div class="info">
+                                <span class="rain"><span id="precip"></span> MM</span>
+                                <span class="wind"><span id="wind"></span> MPS</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="searchXML()">Click Me!</button>
+
+                </div>
+
+            </div>
+            <div class="col-sm-1">
+
+            </div>
+
+
+        </div>
     </div>
-</div>
 
-</body>
+    </body>
 
-<script>window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
-window.myWidgetParam.push({id: 12,cityid: '2964574',appid: '718d1e3d695907c31b9a4b710e8348f5',units:
-'metric',containerid: 'openweathermap-widget-12',  });  (function()
-{var script = document.createElement('script');script.async = true;script.charset = "utf-8";
-script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
-var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(script, s);  })();
-
-
-
+    <script>
         $(document).ready(function() {
             $('#picker').dateTimePicker();
             $('#picker-no-time').dateTimePicker({
@@ -78,7 +94,131 @@ var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(scr
                 dateFormat: 'DD/MM/YYYY'
             });
         })
+
+
+        function currentWeather() {
+
+            var currentxhttp = new XMLHttpRequest();
+            currentxhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    currentW(this);
+                }
+            };
+            currentxhttp.open("GET", "https://api.openweathermap.org/data/2.5/weather?q=dublin&APPID=718d1e3d695907c31b9a4b710e8348f5&units=metric&cnt=200&mode=xml", false);
+            currentxhttp.send();
+        }
+        
+        
+
+        function currentW(xml) {
+            var xmlDoc = xml.responseXML;
+
+            myX = xmlDoc.getElementsByTagName("symbol");
+
+            var x = xmlDoc.getElementsByTagName("current")[0];
+
+            var temp = x.childNodes[1];
+            var temperature = temp.getAttribute('value');
+            document.getElementById("temp").innerHTML = temperature;
+
+            var wind = x.childNodes[4].childNodes[0];
+            var windspeed = wind.getAttribute('value');
+            document.getElementById("wind").innerHTML = windspeed;
+
+            var precip = x.childNodes[7];
+            var precipitation = precip.getAttribute('value');
+            if (precipitation == null) {
+                precipitation = 0;
+            }
+            document.getElementById("precip").innerHTML = precipitation;
+
+            var weather = x.childNodes[8];
+            var overview = weather.getAttribute('value');
+
+            weatherIcons(overview);
+
+        }
+
+    
+
+        function searchXML() {
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xhttp.open("GET", "https://api.openweathermap.org/data/2.5/forecast/?q=dublin&APPID=718d1e3d695907c31b9a4b710e8348f5&units=metric&cnt=200&mode=xml", false);
+            xhttp.send();
+        }
+
+        function myFunction(xml) {
+            var xmlDoc = xml.responseXML;
+
+            input = "2019-03-28T12:00:00"
+            myX = xmlDoc.getElementsByTagName("symbol");
+            for (i = 0; i < myX.length; i++) {
+
+                var x = xmlDoc.getElementsByTagName("forecast")[0];
+                var y = x.childNodes[i];
+                var time = y.getAttribute('from');
+                if (input == time) {
+                    var weather = x.childNodes[i].childNodes[0];
+                    var overview = weather.getAttribute('name');
+
+
+                    var temp = x.childNodes[i].childNodes[4];
+                    var temperature = temp.getAttribute('value');
+                    document.getElementById("temp").innerHTML =
+                        temperature;
+
+                    var wind = x.childNodes[i].childNodes[3];
+                    var windspeed = wind.getAttribute('mps');
+                    document.getElementById("wind").innerHTML =
+                        windspeed;
+
+                    var precip = x.childNodes[i].childNodes[1];
+                    var precipitation = precip.getAttribute('value');
+                    if (precipitation == null) {
+                        precipitation = 0;
+                    }
+                    document.getElementById("precip").innerHTML = precipitation;
+
+                    var clouds = x.childNodes[i].childNodes[7];
+                    var cloudspeed = clouds.getAttribute('value');
+                    
+                    weatherIcons(overview);
+                    
+                         break;
+                }
+
+            }
+        }
+                    
+
+                    function weatherIcons(overview){
+                    if (overview.includes("thunderstorm")) {
+                        document.getElementById("image").innerHTML = "<i class='fas fa-bolt' style='font-size:84px;'></i>";
+                    } else if (overview.includes("drizzle")) {
+                        document.getElementById("image").innerHTML = "<i class='fas fa-cloud-rain' style='font-size:84px;'></i>";
+                    } else if (overview.includes("snow") || overview.includes("sleet")) {
+                        document.getElementById("image").innerHTML = "<i class='far fa-snowflake' style='font-size:84px;'></i>";
+                    } else if (overview == "light rain") {
+                        document.getElementById("image").innerHTML = "<i class='fas fa-cloud-sun-rain' style='font-size:84px;'></i>";
+                    } else if (overview.includes("rain")) {
+                        document.getElementById("image").innerHTML = "<i class='fas fas fa-cloud-showers-heavy' style='font-size:84px;'></i>";
+                    } else if (overview == "clear sky") {
+                        document.getElementById("image").innerHTML = "<i class='fas fa-sun' style='font-size:84px;'></i>";
+                    } else if (overview.includes("clouds")) {
+                        document.getElementById("image").innerHTML = "<i class='fas fa-cloud-sun' style='font-size:84px;'></i>";
+
+                    } else {
+                        document.getElementById("image").innerHTML = "<i class='fas fa-smog' style='font-size:84px;'></i>";
+                    }
+
+        }
+        window.onload = currentWeather;
     </script>
+
 </html>
-
-

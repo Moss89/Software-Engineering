@@ -1,1 +1,2 @@
 FLASK_APP=DublinBikes.py
+FLASK_ENV=production

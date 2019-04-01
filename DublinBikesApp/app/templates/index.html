@@ -24,13 +24,29 @@
                         <div style="width: 230px; height: auto; background-color: white; border: 5px orange solid; border-radius: 6px">
                             <img src="{{url_for('static', filename='images/clock.png')}}" width="220px" />
                             <form action="/signUp" method="post" role="form" id="picker">
-                            <input type="date" name="date">
-                            <input type="time" name="time">
-                            <button class="btn btn-sm btn-primary btn-block" type="button">Submit</button>
+                            <input type="date" name="date" id = "date">
+                            <input type="time" name="time" id = "time">
+                            <button onclick="searchXML()" class="btn btn-sm btn-primary btn-block" id = "timepick" type="button">Submit</button>
                             </form>
                         </div>
 
-                        <div id="openweathermap-widget-12"></div>
+                        <div id="weather_wrapper">
+                            <div class="weatherCard">
+                                <div class="currentTemp">
+                                    <span class="temp"><span id="temp"></span>&deg;</span>
+                                    <span class="location">Dublin</span>
+                                </div>
+                                <div class="currentWeather">
+                                    <span class="conditions" id="image"></span>
+                                    <div class="info">
+                                        <span class="rain"><span id="precip"></span> MM</span>
+                                        <span class="wind"><span id="wind"></span> MPS</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<button onclick="searchXML()">Click Me!</button>-->
+
+                        </div>
                     </div>
                  <!-- <div class="col-sm-1"></div> -->
                 </div>
@@ -38,29 +54,29 @@
 </div>
 
 <script>
-    window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
-    window.myWidgetParam.push({
-        id: 12,
-        cityid: '2964574',
-        appid: '718d1e3d695907c31b9a4b710e8348f5',
-        units: 'metric',
-        containerid: 'openweathermap-widget-12',
-    });
-    (function() {
-        var script = document.createElement('script');
-        script.async = true;
-        script.charset = "utf-8";
-        script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(script, s);
-    })();
-    $(document).ready(function() {
-        $('#picker').dateTimePicker();
-        $('#picker-no-time').dateTimePicker({
-            showTime: false,
-            dateFormat: 'DD/MM/YYYY'
-        });
-    })
+    <!--window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];-->
+    <!--window.myWidgetParam.push({-->
+        <!--id: 12,-->
+        <!--cityid: '2964574',-->
+        <!--appid: '718d1e3d695907c31b9a4b710e8348f5',-->
+        <!--units: 'metric',-->
+        <!--containerid: 'openweathermap-widget-12',-->
+    <!--});-->
+    <!--(function() {-->
+        <!--var script = document.createElement('script');-->
+        <!--script.async = true;-->
+        <!--script.charset = "utf-8";-->
+        <!--script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";-->
+        <!--var s = document.getElementsByTagName('script')[0];-->
+        <!--s.parentNode.insertBefore(script, s);-->
+    <!--})();-->
+    <!--$(document).ready(function() {-->
+        <!--$('#picker').dateTimePicker();-->
+        <!--$('#picker-no-time').dateTimePicker({-->
+            <!--showTime: false,-->
+            <!--dateFormat: 'DD/MM/YYYY'-->
+        <!--});-->
+    <!--})-->
 </script>
 
     <script>
@@ -122,4 +138,6 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"
     async defer></script>
+
+
 {% endblock %}

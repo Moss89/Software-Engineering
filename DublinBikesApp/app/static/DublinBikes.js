@@ -2,7 +2,7 @@ function Submit(){
     var date = GetDate();
     var time = GetTime();
     var formattedDateTime = FormatDateTime(date, time);
-    ResetInputs();
+//    ResetInputs();
 }
 
 function GetDate(){
@@ -26,7 +26,7 @@ function ResetInputs(){
 }
 
 $(function() {
-    $('button').click(function() {
+    $('#timepick').click(function() {
         $.ajax({
             url: '/get_bike_info',
             data: $('form').serialize(),
@@ -42,11 +42,12 @@ $(function() {
 });
 
 
+
+
 /*
 (function ($) {
     'use strict';
     $.fn.dateTimePicker = function (options) {
-
         var settings = $.extend({
             selectData: "now",
             dateFormat: "YYYY-MM-DD HH:mm",
@@ -117,14 +118,12 @@ $(function() {
                     var $hour = $fieldTime.find('#d-hh');
                     var $minute = $fieldTime.find('#d-mm');
                 }
-
                 function feelDates(selectM) {
                     var $fDate = $content.find('#field-data');
                     $fDate.empty();
                     $fDate.append(createMonthPanel(selectM));
                     $fDate.append(createCalendar(selectM));
                 }
-
                 function createCalendar(selectedMonth) {
                     var $c = $('<div>');
                     $c.addClass('dtp_modal-calendar');
@@ -168,9 +167,7 @@ $(function() {
                     }
                     return $c;
                 }
-
                 function changeDate() {
-
                     var $div = $(this);
                     selectDate.date($div.text());
                     lastSelected = copyDate(selectDate);
@@ -185,7 +182,6 @@ $(function() {
                     $div.unbind('click');
                     // console.log(selectDate.format('DD-MM-YYYY'));
                 }
-
                 function createMonthPanel(selectMonth) {
                     var $d = $('<div>');
                     $d.addClass('dtp_modal-months');
@@ -203,7 +199,6 @@ $(function() {
                     $d.append($s);
                     return $d;
                 }
-
                 function close() {
                     if (settings.showTime) {
                         lastSelected.hour(parseInt($hour.text()));
@@ -215,19 +210,16 @@ $(function() {
                     $content.remove();
                     $win.remove();
                 }
-
                 function nextMonth() {
                     selectDate.add(1, 'month');
                     feelDates(selectDate);
                 }
-
                 function prevMonth() {
                     if (totalMonths(selectDate) > totalMonths(startDate)) {
                         selectDate.add(-1, 'month');
                         feelDates(selectDate);
                     }
                 }
-
                 function attachChangeTime() {
                     var $angles = $($content).find('i[id^="angle-"]');
                     // $angles.bind('click', changeTime);
@@ -240,7 +232,6 @@ $(function() {
                         changeTime(this);
                     });
                 }
-
                 function changeTime(el) {
                     var $el = this || el;
                     $el = $($el);
@@ -255,7 +246,6 @@ $(function() {
                         autoIncrement($el);
                     }, timeout);
                 }
-
                 function autoIncrement(el) {
                     if (mousedown) {
                         if (timeout > 200) {
@@ -264,9 +254,7 @@ $(function() {
                         changeTime(el);
                     }
                 }
-
                 function appendIncrement(typeDigits, increment) {
-
                     var $i = typeDigits == "hour" ? $hour : $minute;
                     var val = parseInt($i.text()) + increment;
                     if (val < 0) {
@@ -277,15 +265,12 @@ $(function() {
                     }
                     $i.text(formatDigits(val));
                 }
-
                 function formatDigits(val) {
-
                     if (val < 10) {
                         return '0' + val;
                     }
                     return val;
                 }
-
                 function createTimer() {
                     var $div = $('<div>');
                     $div.addClass('dtp_modal-time-mechanic');
@@ -303,7 +288,6 @@ $(function() {
                     $i.addClass('fa fa-angle-up ico-size-large cursorily hov');
                     $panel.append($i);
                     $div.append($panel);
-
                     $panel = $('<div>');
                     $panel.addClass('dtp_modal-digits');
                     var $d = $('<span>');
@@ -321,7 +305,6 @@ $(function() {
                     $d.text(lastSelected.format('mm'));
                     $panel.append($d);
                     $div.append($panel);
-
                     $panel = $('<div>');
                     $panel.addClass('dtp_modal-append');
                     $i = $('<i>');
@@ -338,7 +321,6 @@ $(function() {
                     $div.append($panel);
                     return $div;
                 }
-
                 function createContent() {
                     var $c = $('<div>');
                     if (settings.showTime) {
@@ -366,7 +348,6 @@ $(function() {
                         $line.attr('id', 'time-line');
                         $line.addClass('dtp_modal-time-line');
                         $line.text(lastSelected.format(settings.dateFormat));
-
                         $a.append($line);
                         $a.append(createTimer());
                         var $but = $('<div>');
@@ -389,7 +370,6 @@ $(function() {
                         $win.remove();
                     }
                 }
-
                 function updateMainElem() {
                     var arrF = settings.dateFormat.split(' ');
                     if (settings.showTime && arrF.length != 2) {
@@ -413,22 +393,16 @@ $(function() {
                         elem.append($s);
                     }
                 }
-
             });
-
         });
-
     };
-
     function copyDate(d) {
         return moment(d.toDate());
     }
-
     function totalMonths(m) {
         var r = m.format('YYYY') * 12 + parseInt(m.format('MM'));
         return r;
     }
-
 }(jQuery));
 // fa-caret-down
 */

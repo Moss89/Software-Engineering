@@ -94,35 +94,56 @@
             var marker = new google.maps.Marker({
                 position:coords,
                 map:map,
-                icon:'./static/images/redf_markerC.png'
-            });
-                } else if (available_bikes<10) {
-                    var marker = new google.maps.Marker({
-                position:coords,
-                map:map,
                 icon:'./static/images/red_markerC.png'
             });
-                } else if (available_bikes<20) {
+                } else if (available_bikes/available_bike_stands<0.25) {
                     var marker = new google.maps.Marker({
-                position:coords,
-                map:map,
-                icon:'./static/images/orange_markerC.png'
-            }); 
+                    position:coords,
+                    map:map,
+                    icon:'./static/images/red_markerC.png'
+                });
+                } else if (available_bikes/available_bike_stands<0.5) {
+                    var marker = new google.maps.Marker({
+                    position:coords,
+                    map:map,
+                    icon:'./static/images/orange_markerC.png'
+                }); 
                 } else {
                     var marker = new google.maps.Marker({
-                position:coords,
-                map:map,
-                icon:'./static/images/green_markerC.png'
-            });
+                    position:coords,
+                    map:map,
+                    icon:'./static/images/green_markerC.png'
+                });
                 }
-            //add listener to display window above marker
+                marker.addListener('click',function() {
+                var pos = marker.getPosition();
+                var pos1 = {lat: pos.lat(),lng: pos.lng()}
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/infoWindow', 
+                    data: JSON.stringify({lat: pos.lat(),lng: pos.lng()}),
+                    success: function(response) {
+               var response = JSON.parse(response);
+                        infoWindow.setContent('<h1>'+response.address[0]+'</h1><br><p>Current number of bikestands:'+response.bikestands[0]+'</p><br><p>Current number of bikes:'+response.available_bikes[0]+'</p>'
+             );
+                    console.log(response);
+                        
+            },
+            error: function(error) {
+                console.log(error);
+            }
+                });
+                    
+                infoWindow.open(map, marker);
+                setTimeout(function()
+                           {infoWindow.close(map,marker);}, '100000');
+                map.setCenter(marker.getPosition());
+            });
+                //add listener to display window above marker
                 var infoWindow = new google.maps.InfoWindow({
                 content:'<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'
                 });
-            marker.addListener(marker,'mouseover',function() {
-                infoWindow.open(map, marker);
-                setTimeout(function(){infowindow.close();}, '1000');
-            });
             }
             {% for item in range(0,len) %}
             var position = {lat:{{lat[item]}},lng:{{lng[item]}}};
@@ -131,9 +152,10 @@
             var bikestands = "{{bikestands[item]}}";
            var available_bikes = "{{available_bikes[item]}}";
             
-            addMarker(position,specific_address,bikestands,available_bikes);
+          addMarker(position,specific_address,bikestands,available_bikes);
             {% endfor %}
         }
+        
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"

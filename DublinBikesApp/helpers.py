@@ -6,8 +6,9 @@ Functions for the routes go here
 
 def get_static_data(table):
 
-    results = {"lat": [], "lng": [], "address": [], "bikestands": []}
+    results = {"number": [], "lat": [], "lng": [], "address": [], "bikestands": []}
     for i in range(len(table)):
+        results["number"].append(table[i].number)
         results["lat"].append(table[i].lat)
         results["lng"].append(table[i].lng)
         results["address"].append(table[i].address)
@@ -18,7 +19,7 @@ def get_static_data(table):
 def get_dynamic_data(static_table, dynamic_table):
 
     results = {"available_bikes": [], "address": []}
-    for i in range(0,113):
+    for i in range(len(dynamic_table)):
         results["address"].append(static_table[i].address)
         results["available_bikes"].append(dynamic_table[i].available_bikes)
     return results

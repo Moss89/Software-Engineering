@@ -117,8 +117,7 @@ function searchXML() {
 
                     var wind = x.childNodes[i].childNodes[3];
                     var windspeed = wind.getAttribute('mps');
-                    document.getElementById("wind").innerHTML =
-                        windspeed;
+                    document.getElementById("wind").innerHTML = Number.parseFloat(windspeed).toFixed(1);
 
                     var precip = x.childNodes[i].childNodes[1];
                     var precipitation = precip.getAttribute('value');

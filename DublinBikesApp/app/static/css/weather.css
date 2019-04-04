@@ -28,7 +28,7 @@
 	right: 0;
 }
 .temp{
-	font-size: 70px;
+	font-size: 62px;
 	text-align: center;
 	display: block;
 	font-weight: 300;
@@ -41,7 +41,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	font-weight: 700;
-	font-size: 40px;
+	font-size: 36px;
 	display: block;
 }
 .conditions{
@@ -63,7 +63,7 @@
 	text-align: center;
 }
 .rain {
-	width: 40%;
+	width: 20%;
 	position: absolute;
 	left: 20%;
 	word-spacing: 150px;
@@ -74,15 +74,15 @@
 	content: '\f04e';
 	font-family: weathericons;
 	font-size: 38px;
-	left: 10%;
+	left: 0%;
 	top: -18%;
 	position: absolute;
 }
 .wind {
 	width: 40%;
-	right: -10%;
+	right: 0%;
 	position: absolute;
-	word-spacing: 150px;
+	word-spacing: 250px;
 	top: 3px;
 }
 .wind::before{
@@ -90,7 +90,7 @@
 	content: '\f050';
 	font-family: weathericons;
 	font-size: 30px;
-	left: -10%;
+	left: -20%;
 	position: absolute;
 	top: -10%;
 }

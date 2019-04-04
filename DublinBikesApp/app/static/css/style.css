@@ -1,21 +1,35 @@
 body {
-  background-image: url("../images/bikeback.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
+  background:linear-gradient(90deg, #7474BF 10%, #348AC7 90%);;
+  max-width:100%;
+  overflow-x: hidden;
 }
 
 
-img {
-  max-width: 100%;
-    display: block;
+
+footer {
+  background:linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
+  padding: 10px;
+  text-align: center;
+  color: white;
+  height: 28%;
+  max-width:100%;
 }
+
+header{
+  background:linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
+  padding: 10px;
+  text-align: center;
+  color: white;
+  height: 20%;
+  max-width:100%;
+  display:none;
+}
+
 
 
 .container-fluid {
-    padding-right:0;
-    padding-left:0;
+    padding-right:5px;
+    padding-left:5px;
     margin-right:auto;
     margin-left:auto
  }
@@ -30,8 +44,39 @@ img {
 	 display: flex;
 	 flex-direction: column;
 }
+#footerLogo{
+background:none;
+border:none;
+width: 150px;
+margin-left: 30px;
+margin-right: 30px;
+margin-top: 30px;
+max-width: 100%;
+height: auto;
+}
 
-.logo{
-    max-width: 150px;
+#headerLogo{
+align: center;
+background:none;
+border:none;
+width: 90px;
+margin-top: 2px;
+margin-bottom: 2px;
+max-width: 100%;
+height: auto;
+}
+
+
+img{
+max-width:100%;
+}
+
+@media only screen and (max-width:600px){
+ #footerLogo{
+ display:none;
+ }
+ #hiddenHeader{
+ display:block;
+ }
 }
 

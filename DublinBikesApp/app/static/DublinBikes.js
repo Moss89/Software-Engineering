@@ -5,25 +5,25 @@ function Submit(){
 //    ResetInputs();
 }
 
-function GetDate(){
-    var date = document.getElementById("date").value;
-    return date;
-}
+//function GetDate(){
+//    var date = document.getElementById("date").value;
+//    return date;
+//}
+//
+//function GetTime(){
+//    var time = document.getElementById("time").value;
+//    return time;
+//}
 
-function GetTime(){
-    var time = document.getElementById("time").value;
-    return time;
-}
-
-function FormatDateTime(date, time){
-    var formattedDateTime = date.toString() + " " + time.toString()
-    console.log(formattedDateTime);
-}
-
-function ResetInputs(){
-    document.getElementById("date").value = "";
-    document.getElementById("time").value = "";
-}
+//function FormatDateTime(date, time){
+//    var formattedDateTime = date.toString() + " " + time.toString()
+//    console.log(formattedDateTime);
+//}
+//
+//function ResetInputs(){
+//    document.getElementById("date").value = "";
+//    document.getElementById("time").value = "";
+//}
 
 $(function() {
     $('#timepick').click(function() {

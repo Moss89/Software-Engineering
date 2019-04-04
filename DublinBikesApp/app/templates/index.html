@@ -2,56 +2,70 @@
 
 {% block content %}
 
+<header id = "hiddenHeader" style="align:center">
+    <img id="headerLogo" src="/static/images/logo2.png" alt="logo">
+</header>
+
 <div class="container-fluid">
 
-<!--    <div class="row no-gutters">
-        <div class="col-sm-12">
-            <div style="height: 10px">
-                <p></p>
-            </div>
-        </div>
-    </div>
--->
-    <div class="row no-gutters">
-       <!-- <div class="col-sm-1">
-            </div> -->
-                <div class="col-sm-8 padding-0">
+    <div class="row">
+
+                <div class="col-sm-12 padding-0">
                     <div id="map"></div>
                 </div>
 
-                <div class="col-sm-3 padding-0">
-                    <div class="col-sm-3 padding-0">
-                        <div style="width: 230px; height: auto; background-color: white; border: 5px orange solid; border-radius: 6px">
-                            <img src="{{url_for('static', filename='images/clock.png')}}" width="220px" />
-                            <form action="/signUp" method="post" role="form" id="picker">
-                            <input type="date" name="date" id = "date">
-                            <input type="time" name="time" id = "time">
-                            <button onclick="searchXML()" class="btn btn-sm btn-primary btn-block" id = "timepick" type="button">Submit</button>
-                            </form>
-                        </div>
-
-                        <div id="weather_wrapper">
-                            <div class="weatherCard">
-                                <div class="currentTemp">
-                                    <span class="temp"><span id="temp"></span>&deg;</span>
-                                    <span class="location">Dublin</span>
-                                </div>
-                                <div class="currentWeather">
-                                    <span class="conditions" id="image"></span>
-                                    <div class="info">
-                                        <span class="rain"><span id="precip"></span> MM</span>
-                                        <span class="wind"><span id="wind"></span> MPS</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<button onclick="searchXML()">Click Me!</button>-->
-
-                        </div>
-                    </div>
-                 <!-- <div class="col-sm-1"></div> -->
                 </div>
     </div>
-</div>
+
+
+
+<footer>
+    <div class="container-fluid">
+        <div class="row">
+    <div class="col-sm-2">
+        <img class = "logo" id="footerLogo" src="/static/images/logo2.png" alt="logo">
+    </div>
+
+
+            <div class="col-sm-7">
+
+                <div id="weather_wrapper" style="background-color: rgb(42, 178, 234);
+        border: 2px rgb(42, 178, 234) solid; border-radius: 6px;">
+                    <div class="weatherCard">
+                        <div class="currentTemp">
+                            <span class="temp"><span id="temp"></span>&deg;</span>
+                            <span class="location">Dublin</span>
+                        </div>
+                        <div class="currentWeather">
+                            <span class="conditions" id="image" style="color:black"></span>
+                            <div class="info">
+                                <span class="rain"><span id="precip"></span> MM</span>
+                                <span class="wind"><span id="wind"></span> MPS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+    <div class="col-sm-3">
+        <div style="width: 100%; margin-top:10px; margin-bottom:10px; height: auto; background-color: white;
+        border: 2px rgb(42, 178, 234) solid; border-radius: 6px; text-align: center">
+        <img src="{{url_for('static', filename='images/clock.png')}}" width="100px" height="auto" />
+        <form action="/signUp" method="post" role="form" id="picker">
+        <input type="date" name="date" id = "date">
+        <input type="time" name="time" id = "time">
+        <button onclick="searchXML()" class="btn btn-sm btn-primary btn-block" id = "timepick" type="button">Submit</button>
+        </form>
+        </div>
+    </div>
+
+        </div>
+    </div>
+</footer>
+
 
 <script>
     <!--window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];-->

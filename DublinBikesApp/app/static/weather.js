@@ -125,7 +125,9 @@ function searchXML() {
                     if (precipitation == null) {
                         precipitation = 0;
                     }
-                    document.getElementById("precip").innerHTML = precipitation;
+                    var pointNum = parseFloat(precipitation);
+                    document.getElementById("precip").innerHTML = Number.parseFloat(precipitation).toFixed(2);
+
 
                     var clouds = x.childNodes[i].childNodes[7];
                     var cloudspeed = clouds.getAttribute('value');

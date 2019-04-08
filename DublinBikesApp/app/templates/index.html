@@ -65,7 +65,7 @@
         </div>
     </div>
 </footer>
-
+<div id='footer'></div>
 
 <script>
     <!--window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];-->
@@ -92,85 +92,196 @@
         <!--});-->
     <!--})-->
 </script>
-
-    <script>
-        function initMap() {
-            var options = {
-                zoom:13,
-                center:{lat:53.345,lng:-6.268}
+<script>
+    //Boolean represents whether user is looking for past info or current info.If false then the infowindow is refresehed. If true it is not
+    var SEARCHING = false;
+    //Array for all markers on page
+    var MARKERS = new Array();
+    //Map Initialisation
+    function initMap() {
+        var options = {
+            zoom:13.75,
+            center:{lat:53.345,lng:-6.268}
+        }
+    //Add map
+    var map = new google.maps.Map(document.getElementById('map'),options);
+    function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown',number){
+        //Choosing the correct image for the icon depending on availability of bikes
+        if (available_bike_stands=='Unknown'){
+            var photo_icon = './static/images/red_markerC.png';
+        } 
+        else {
+            var ratio_bike_to_stands = available_bikes/available_bike_stands;    
+            if (ratio_bike_to_stands<0.25){
+                var photo_icon = './static/images/red_markerC.png';
+            } 
+            else if (ratio_bike_to_stands<=0.5){
+                var photo_icon = './static/images/orange_markerC.png';
+            } 
+            else {
+                var photo_icon = './static/images/green_markerC.png';
             }
-            //Add map
-            var map = new google.maps.Map(document.getElementById('map'),options);
-            //Add marker function
-            function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown'){
-                //Add marker with custom icon at specified point
-                if (available_bikes=='Unknown') {
-            var marker = new google.maps.Marker({
-                position:coords,
-                map:map,
-                icon:'./static/images/red_markerC.png'
+        }
+            var info = '<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'
+        //Add marker with specific information such as its id and number of stands per bike stand. 
+        var marker = new google.maps.Marker({
+            position:coords,
+            map:map,
+            icon:photo_icon,
+            id:number,
+            stands:available_bike_stands,
+            info: info
+        });
+        //Infowindow based on results when page is first loaded.
+        var infoWindow = new google.maps.InfoWindow({
+                content:marker.info
             });
-                } else if (available_bikes/available_bike_stands<0.25) {
-                    var marker = new google.maps.Marker({
-                    position:coords,
-                    map:map,
-                    icon:'./static/images/red_markerC.png'
-                });
-                } else if (available_bikes/available_bike_stands<0.5) {
-                    var marker = new google.maps.Marker({
-                    position:coords,
-                    map:map,
-                    icon:'./static/images/orange_markerC.png'
-                }); 
-                } else {
-                    var marker = new google.maps.Marker({
-                    position:coords,
-                    map:map,
-                    icon:'./static/images/green_markerC.png'
-                });
-                }
-                marker.addListener('click',function() {
+            //Adding specific marker to the global array.
+            MARKERS.push(marker);
+            marker.addListener('click',function() {
+            //Checking if user wants to see current or past results
+            if (!SEARCHING){
                 var pos = marker.getPosition();
-                var pos1 = {lat: pos.lat(),lng: pos.lng()}
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     url: '/infoWindow', 
                     data: JSON.stringify({lat: pos.lat(),lng: pos.lng()}),
                     success: function(response) {
-               var response = JSON.parse(response);
-                        infoWindow.setContent('<h1>'+response.address[0]+'</h1><br><p>Current number of bikestands:'+response.bikestands[0]+'</p><br><p>Current number of bikes:'+response.available_bikes[0]+'</p>'
-             );
-                    console.log(response);
-                        
-            },
+                        var response = JSON.parse(response); 
+                        //Infowindow's contents changed to be current results
+                        infoWindow.setContent('<h1>'+response.address+'</h1><br><p>Current number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p>');
+                     
+                    //Setting up line chart    
+                    google.charts.load('current', {'packages':['corechart','line']});
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string','Day')
+                        data.addColumn('number', 'Bikes');
+                        var weekdays = ['Sunday','Monday','Tuesay','Wednesday','Thursday','Friday','Saturday'];
+                        var today = new Date();
+                        //getDay works by saying Monday is 1 and so on until Sunday is 7.
+                        var correct_weekday = today.getDay();
+                        //Data is in reverse order so below we start at the end ad iterate until we reach the front
+                        for (var i = response.station_history.length; i >= 0; i-=4){
+                            //One bike is updated 288 times a day so if this condition is true then a day has passed. NEEDS REVIEWING AS DAY DOESN'T START AT 00:00.
+                            if (i%288==0) {
+                                correct_weekday+=1;
+                            }
+                            var average = 0;
+                            //Getting results over twenty minutes
+                            for (var j = 0; j > -4; j--){
+                                average += response.station_history[i+j];
+                            }
+                            //Adding the date rows containing the Weekday and Time associated to a bike number
+                            data.addRows([[""+weekdays[correct_weekday%7]+" "+response.time[i+j/2]+"",Math.floor(average/4)]]);
+                        }
+                        var options = {
+                          title: 'Bike Availability',
+                          curveType: 'function',
+                          chartArea:{width:'100%'},	
+                          legend: { position: 'bottom' },
+                        };
+
+                        var chart = new google.visualization.LineChart(document.getElementById('footer'));
+
+                        chart.draw(data, options);
+                        }              
+                    },
             error: function(error) {
                 console.log(error);
             }
                 });
-                    
+                //Opening infoWindow and setting a time out counter for it.   
                 infoWindow.open(map, marker);
-                setTimeout(function()
-                           {infoWindow.close(map,marker);}, '100000');
+                setTimeout(function(){infoWindow.close(map,marker);}, '100000');
                 map.setCenter(marker.getPosition());
-            });
-                //add listener to display window above marker
-                var infoWindow = new google.maps.InfoWindow({
-                content:'<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'
-                });
+                    
+            } else{
+                infoWindow.setContent(marker.info);
+                infoWindow.open(map, marker);
+                setTimeout(function(){infoWindow.close(map,marker);}, '100000');
+                map.setCenter(marker.getPosition());
+                
             }
+            //Closing the line chart when the infoWindow is closed.NEEDS REVIEWING.CLOSES WHEN IRRELEVANT INFOWINDOW CLOSED
+            google.maps.event.addListener(infoWindow,'closeclick',function(){
+            document.getElementById("footer").innerHTML = '';
+        });
+    });
+       
+}
             {% for item in range(0,len) %}
             var position = {lat:{{lat[item]}},lng:{{lng[item]}}};
-
-           var specific_address ="{{address[item]}}"; 
+            var specific_address ="{{address[item]}}"; 
             var bikestands = "{{bikestands[item]}}";
-           var available_bikes = "{{available_bikes[item]}}";
-            
-          addMarker(position,specific_address,bikestands,available_bikes);
+            var available_bikes = "{{available_bikes[item]}}";
+            var station_id = "{{number[item]}}";
+             addMarker(position,specific_address,bikestands,available_bikes,station_id);
             {% endfor %}
-        }
+}
+//Adding event listener to submit button
+document.getElementById('timepick').addEventListener('click',getBikeInfo);
         
-    </script>
+function Submit(){
+  var date = GetDate();
+  var time = GetTime();
+  return [date,time];
+}
+
+function GetDate(){
+  var date = document.getElementById("date").value;
+  return date;
+}
+
+function GetTime(){
+  var time = document.getElementById("time").value;
+  return time;
+}
+
+function getBikeInfo(){
+    var date_time = Submit();
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json; charset=utf-8",
+      url: '/get_bike_info',
+      data: JSON.stringify({date: date_time[0],time: date_time[1]}),
+      success: function(response) {
+        var response = JSON.parse(response);
+        //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
+        SEARCHING = true;
+        //The response contains an list ordered by station number
+          console.log(MARKERS[0].info);
+          for (var i = 0; i < 114;i++){
+              for (var j = 0; j<MARKERS.length;j++){
+                  //This check is necessary as the station numbers start at 2 and go to 115.
+                  if (i+2 == MARKERS[j].id) {
+                    //Recalculating availability and altering marker colours accordingly.
+                    var ratio_bike_to_stands = response['bikes'][i]/MARKERS[j].stands;
+                    if (ratio_bike_to_stands<0.25){
+                        MARKERS[j].setIcon('./static/images/red_markerC.png');
+                    } 
+                    else if (ratio_bike_to_stands<=0.5){
+                        MARKERS[j].setIcon('./static/images/orange_markerC.png');
+                    } 
+                    else {
+                        MARKERS[j].setIcon('./static/images/green_markerC.png');
+                    }
+                    MARKERS[j].info='<h1>'+response.address[i]+'</h1><br><p>Current number of bikestands:'+MARKERS[j].stands+'</p><br><p>Current number of bikes:'+response.bikes[i]+'</p>';
+                    
+                  }
+              }
+          }
+          console.log(MARKERS[0].info);
+      },
+        error: function(error) {
+          console.log(error);
+      }
+    });
+}
+</script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"
     async defer></script>

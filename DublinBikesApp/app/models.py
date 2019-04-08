@@ -24,6 +24,7 @@ class DbDynamicInfo(db.Model):
     available_bike_stands = db.Column(db.Integer)
     available_bikes = db.Column(db.Integer)
     last_update = db.Column(db.DateTime)
+    weekday = db.Column(db.Integer)
 
     def __repr__(self):
         return "<DbStaticInfo {}>".format(self.id)

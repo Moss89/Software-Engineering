@@ -3,16 +3,18 @@ from app import app
 from app.models import DbStaticInfo, DbDynamicInfo
 import helpers
 import requests
-import datetime
+
 import time
 import json
-from sqlalchemy.sql.expression import func
-from sqlalchemy.sql import select
-from sqlalchemy import and_
-from _datetime import date
+from sqlalchemy.sql.expression import func,select
+from sqlalchemy import and_,desc,asc
 from alembic.command import current
 from jedi.evaluate import dynamic
 from flask.globals import request
+from tkinter.constants import LAST
+from mysqlx.protobuf.mysqlx_crud_pb2 import Limit
+from _operator import add
+from scipy.constants.constants import dyn
 
 
 """
@@ -23,64 +25,74 @@ Create the different routes here
 @app.route("/index", methods=['POST'])
 def index():
     try:
+        #Static info results in a list of rows ordered by number
         static_table = DbStaticInfo.query.all()
         static_info = helpers.get_static_data(static_table)
-        max_value = select([func.max(DbDynamicInfo.last_update)])
-        dynamic_table = DbDynamicInfo.query.join(DbStaticInfo, (DbDynamicInfo.number == DbStaticInfo.number)).filter(DbDynamicInfo.last_update == max_value).all()
-        dynamic_info = helpers.get_dynamic_data(static_table, dynamic_table)
-        lat, lng, address, bikestands, available_bikes = ([] for i in range(5))
+        #Dynamic row results in a list of rows ordered by desc id. This is not in the same order as above
+        dynamic_rows = DbDynamicInfo.query.order_by(desc(DbDynamicInfo.id)).limit(113).all()    
+        lat, lng, address,available_bikes, bikestands,number = ([] for i in range(6))
+        bikes = {}
+        bikestands = static_info['bikestands']
         lat = static_info['lat']
         lng = static_info['lng']
         address = static_info['address']
-        bikestands = static_info['bikestands']
-        available_bikes = dynamic_info['available_bikes']
+        number = static_info['number']
+        #Iterating through the list of dynamic bike data and adding it to a dictonary using its number as a key and bike availability as a value
+        for i in range(len(dynamic_rows)):
+            bikes[dynamic_rows[i].number] = dynamic_rows[i].available_bikes
+        #Sorting the bike list to be ordered by number
+        sorted_bikes = sorted(bikes.items())
+        #Appending the value of each key to a list with a list comprehension 
+        available_bikes = [i[1] for i in sorted_bikes]
         return render_template("index.html",
-                               len = len(lat),
-                               lat = lat,
-                               lng = lng,
-                               address = address,
-                               bikestands = bikestands,
-                               available_bikes = available_bikes)
+                                len = len(lat),
+                                lat = lat,
+                                lng = lng,
+                                address = address,
+                                bikestands = bikestands,
+                                number = number,
+                                available_bikes = available_bikes)
     except:
         return "Error: unable to fetch data."
 
 
 @app.route("/get_bike_info", methods=["POST"])
 def get_bike_info():
-    #Code works after 24/02/2019 at 5am. Possible issues with database.
     try:
-        date_time = helpers.get_date_time().get_data(as_text=True)
-        year = int(date_time[2:6])
-        month = int(date_time[7:9])
-        day = int(date_time[10:12])
-        hour = int(date_time[15:17])
-        minute = int(date_time[18:20])
-        current_dt = datetime.datetime(year,month,day,hour,minute)
+        result = helpers.get_date_time()
+        date_time = result[0]
+        weekday = result[1]
         #The max value selected is the largest value less than the date time entered by the user
-        max_values = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.last_update <=current_dt)
-        dynamic_table = DbDynamicInfo.query.join(DbStaticInfo, (DbDynamicInfo.number == DbStaticInfo.number)).filter(DbDynamicInfo.last_update == max_values).all()
-        dynamic_bikes = helpers.get_dynamic_data(DbStaticInfo.query.all(),dynamic_table)
-        dynamic_bikes = jsonify(dynamic_bikes)
-        return dynamic_bikes
+        max_values = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.last_update <= date_time)
+        ordered = DbDynamicInfo.query.filter(DbDynamicInfo.last_update >= max_values).order_by(DbDynamicInfo.last_update).limit(113).all()
+        dynamic_bikes = helpers.get_dynamic_data(DbStaticInfo.query.all(),ordered)
+        results = json.dumps({'bikes':dynamic_bikes['available_bikes'],'address':dynamic_bikes['address']})
+        return results
     except:
         return "Error: unable to fetch dynamic data."
     
 @app.route("/infoWindow", methods=['POST'])
 def infoWindow():
     try:
-        #Rounding is used here as the lat and lng in the database has 6 decimal points but request.json['lng'] was giving more than that
-        lat = round(request.json['lat'],7)
-        lng = round(request.json['lng'],7)
+        lat_lng = helpers.get_lat_lng()
+        #Returns a tuple containing lat and lng as two 6 decimal floats
+        lat = lat_lng[0]
+        lng = lat_lng[1]
+        #FInding the specific row in DbStaticInfo relating to the lat and lng provided
         static_row = DbStaticInfo.query.filter(DbStaticInfo.lat == lat).filter(DbStaticInfo.lng == lng).all()
         static_info = helpers.get_static_data(static_row)
-        max_value = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.number == static_info['number'][0])
-        dynamic_table = DbDynamicInfo.query.join(DbStaticInfo, (DbDynamicInfo.number == static_info['number'][0])).filter(DbDynamicInfo.last_update == max_value).all()
-        dynamic_info = helpers.get_dynamic_data(static_row, dynamic_table)
-        address, bikestands, available_bikes = ([] for i in range(3))
+        #Ordering the Dynamic Info database to get the last 113 rows (all the stations at the most recent time)
+        limited_rows = DbDynamicInfo.query.filter(DbDynamicInfo.number == static_info['number'][0]).order_by(desc(DbDynamicInfo.id)).limit(2016).all()
+        station_history = []
         address = static_info['address']
         bikestands = static_info['bikestands']
-        available_bikes = dynamic_info['available_bikes']
-        results = json.dumps({"address":address,"bikestands":bikestands,"available_bikes":available_bikes})
+        available_bikes = limited_rows[0].available_bikes
+        #Selecting all available bikes and times for past week.
+        station_history = list(map(lambda x: x.available_bikes,limited_rows))
+        #Times are returned as hrs and minutes.
+        time = list(map(lambda x: x.last_update.strftime("%H:%M"),limited_rows))
+        results = json.dumps({"address":address,"bikestands":bikestands,"available_bikes":available_bikes,"station_history":station_history,"time":time})
         return results
+        
     except:
         return "Error: unable to fetch data."

@@ -1,4 +1,5 @@
 from flask import request, jsonify
+import datetime
 
 """
 Functions for the routes go here
@@ -26,6 +27,16 @@ def get_dynamic_data(static_table, dynamic_table):
 
 
 def get_date_time():
-    date = request.form['date'];
-    time = request.form['time'];
-    return jsonify(date, time)
+    date = request.json['date']
+    time = request.json['time']
+    date_time = datetime.datetime(int(date[0:4]),int(date[5:7]),int(date[8:10]),int(time[0:2]),int(time[3:5]))
+    weekday = date_time.weekday()
+    return (date_time,weekday)
+
+def get_lat_lng():
+    #Rounded to 6 decimal points to match with database lat and lng data entry.
+    lat = round(request.json['lat'],7)
+    lng = round(request.json['lng'],7)
+    return (lat,lng)
+    
+    

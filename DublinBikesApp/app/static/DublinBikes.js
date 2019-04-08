@@ -1,48 +1,56 @@
-function Submit(){
-    var date = GetDate();
-    var time = GetTime();
-    var formattedDateTime = FormatDateTime(date, time);
-//    ResetInputs();
+/*function Submit(){
+  var date = GetDate();
+  var time = GetTime();
+  return [date,time];
 }
 
-//function GetDate(){
-//    var date = document.getElementById("date").value;
-//    return date;
-//}
-//
-//function GetTime(){
-//    var time = document.getElementById("time").value;
-//    return time;
-//}
+function GetDate(){
+  var date = document.getElementById("date").value;
+  return date;
+}
 
-//function FormatDateTime(date, time){
-//    var formattedDateTime = date.toString() + " " + time.toString()
-//    console.log(formattedDateTime);
-//}
-//
-//function ResetInputs(){
-//    document.getElementById("date").value = "";
-//    document.getElementById("time").value = "";
-//}
+function GetTime(){
+  var time = document.getElementById("time").value;
+  return time;
+}
 
-$(function() {
-    $('#timepick').click(function() {
-        $.ajax({
-            url: '/get_bike_info',
-            data: $('form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
+function getBikeInfo(){
+    var date_time = Submit();
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json; charset=utf-8",
+      url: '/get_bike_info',
+      data: JSON.stringify({date: date_time[0],time: date_time[1]}),
+      success: function(response) {
+        var response = JSON.parse(response);
+        //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
+        SEARCHING = true;
+        //The response contains an list ordered by station number
+          for (var i = 0; i < 114;i++){
+              for (var j = 0; j<MARKERS.length;j++){
+                  //This check is necessary as the station numbers start at 2 and go to 115.
+                  if (i+2 == MARKERS[j].id) {
+                    //Recalculating availability and altering marker colours accordingly.
+                    var ratio_bike_to_stands = response['bikes'][i]/MARKERS[j].stands;
+                    if (ratio_bike_to_stands<0.25){
+                        MARKERS[j].setIcon('./static/images/red_markerC.png');
+                    } 
+                    else if (ratio_bike_to_stands<=0.5){
+                        MARKERS[j].setIcon('./static/images/orange_markerC.png');
+                    } 
+                    else {
+                        MARKERS[j].setIcon('./static/images/green_markerC.png');
+                    }
+                  }
+              }
+          }          
+      },
+        error: function(error) {
+          console.log(error);
+      }
     });
-});
-
-
-
+}
+*/
 
 /*
 (function ($) {

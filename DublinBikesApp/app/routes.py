@@ -60,9 +60,20 @@ def index():
 def get_bike_info():
     try:
         result = helpers.get_date_time()
-        date_time = result[0]
+        date_time = int(result[0].strftime('%s')
+        print(date_time)
         weekday = result[1]
+        
+        static_row = DbStaticInfo.query.all()
+        static_info = helpers.get_static_data(static_row)
+        numbers = static_info['number']
+        address = static_info['address']
+        #Model prediction comes in
+        #bikes = 
+        
+            
         #The max value selected is the largest value less than the date time entered by the user
+        
         max_values = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.last_update <= date_time)
         ordered = DbDynamicInfo.query.filter(DbDynamicInfo.last_update >= max_values).order_by(DbDynamicInfo.last_update).limit(113).all()
         dynamic_bikes = helpers.get_dynamic_data(DbStaticInfo.query.all(),ordered)
@@ -70,6 +81,7 @@ def get_bike_info():
         return results
     except:
         return "Error: unable to fetch dynamic data."
+    
     
 @app.route("/infoWindow", methods=['POST'])
 def infoWindow():

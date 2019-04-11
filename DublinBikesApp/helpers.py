@@ -1,5 +1,7 @@
 from flask import request, jsonify
 import datetime
+from requests import get
+from json import loads
 
 """
 Functions for the routes go here
@@ -38,5 +40,20 @@ def get_lat_lng():
     lat = round(request.json['lat'],7)
     lng = round(request.json['lng'],7)
     return (lat,lng)
+
+def getWeather(t):
+
+    # Scrape weather API
+    r = get(
+        "https://api.openweathermap.org/data/2.5/forecast/?q=dublin&APPID=718d1e3d695907c31b9a4b710e8348f5&units=metric&cnt=200&mode=json").text
+    # Convert scrape to python dict
+    r = loads(r)
+    print("s", t)
+    i = 1
+    # Find correct weather info
+    while t < r["list"][i]["dt"]:
+        r["list"][i]["main"]["temp"]
+        i += 1
+    return r["list"][i]
     
     

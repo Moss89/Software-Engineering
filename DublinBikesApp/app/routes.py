@@ -3,7 +3,7 @@ from app import app
 from app.models import DbStaticInfo, DbDynamicInfo
 import helpers
 import requests
-
+import pickle
 import time
 import json
 from sqlalchemy.sql.expression import func,select
@@ -12,10 +12,13 @@ from alembic.command import current
 from jedi.evaluate import dynamic
 from flask.globals import request
 from tkinter.constants import LAST
-from mysqlx.protobuf.mysqlx_crud_pb2 import Limit
+#from mysqlx.protobuf.mysqlx_crud_pb2 import Limit
 from _operator import add
 from scipy.constants.constants import dyn
 
+# Opens model
+with open("./app/static/data_model.pkl", "rb") as handle:
+    model = pickle.load(handle)
 
 """
 Create the different routes here
@@ -60,7 +63,7 @@ def index():
 def get_bike_info():
     try:
         result = helpers.get_date_time()
-        date_time = int(result[0].strftime('%s')
+        date_time = int(result[0].strftime('%s'))
         print(date_time)
         weekday = result[1]
         
@@ -108,3 +111,65 @@ def infoWindow():
         
     except:
         return "Error: unable to fetch data."
+
+@app.route("/prediction", methods=["POST"])
+def prediction():
+    # Get date and time
+    result = helpers.get_date_time()
+
+    # Convert date to correct format
+    p = "%Y-%m-%d %H:%M:%S"
+    t = int(time.mktime(time.strptime(str(result[0]), p)))
+    day = result[1]
+
+    # Get weather
+    weather = helpers.getWeather(t)
+    print(weather)
+
+    # Dictionaries for converting weather strings to numeric representation
+    descriptionDict = {'broken clouds': 0,
+                   'scattered clouds': 1,
+                    'few clouds': 2,
+                    'clear sky': 3,
+                    'mist': 4,
+                    'fog': 5,
+                    'light rain': 6,
+                    'moderate rain': 7,
+                    'heavy intensity rain': 8,
+                    'very heavy rain': 9,
+                    'snow': 10,
+                    'light intensity shower rain': 11,
+                    'shower rain': 12,
+                    'light intensity drizzle': 13,
+                    'shower sleet': 14,
+                    'light intensity drizzle rain': 15,
+                    'drizzle': 16,
+                    'overcast clouds': 17}
+
+    overviewDict = {'Rain': 0,
+               'Clouds': 1,
+                'Fog': 2,
+                'Snow': 3,
+                'Clear': 4,
+                'Mist': 5,
+                'Drizzle': 6}
+
+    # Formatting info for passing to model
+    overview = weather["weather"][0]["main"]
+    description = weather["weather"][0]["description"]
+    temp = weather["main"]["temp"]
+    windSpeed = weather["wind"]["speed"]
+    clouds = weather["clouds"]["all"]
+    info = [t, day, overview, description, temp, windSpeed, clouds]
+
+    info[2] = overviewDict[info[2]]
+    info[3] = descriptionDict[info[3]]
+
+    # Running model for all stations
+    results = {}
+    for i in model.keys():
+        # Note: info needs to be a list in a list because model takes array
+        results[i] = model[i].predict([info])[0]
+    for i in results.keys():
+        print("Station:", i, "-", "Results:",results[i])
+    return "result"

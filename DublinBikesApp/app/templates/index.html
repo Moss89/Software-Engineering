@@ -246,7 +246,7 @@ function getBikeInfo(){
     $.ajax({
       type: 'POST',
       contentType: "application/json; charset=utf-8",
-      url: '/get_bike_info',
+      url: '/prediction',
       data: JSON.stringify({date: date_time[0],time: date_time[1]}),
       success: function(response) {
         var response = JSON.parse(response);

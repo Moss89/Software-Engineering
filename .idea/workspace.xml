@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0772c38-abee-46b5-8b71-74154da129a7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/DublinBikesProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DublinBikesProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/static/images/green_MarkerC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/static/images/orange_MarkerC.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/static/images/red_MarkerC.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DublinBikesApp/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/helpers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +20,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2081">
-              <caret line="248" column="23" selection-start-line="248" selection-start-column="23" selection-end-line="248" selection-end-column="23" />
+            <state relative-caret-position="231">
+              <caret line="263" column="86" selection-start-line="263" selection-start-column="86" selection-end-line="263" selection-end-column="86" />
               <folding>
                 <element signature="n#style#0;n#header#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#footer#0;n#!!top" expanded="true" />
@@ -61,25 +61,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
+            <state relative-caret-position="825">
               <caret line="55" selection-start-line="55" selection-end-line="56" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/routes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+            <state relative-caret-position="169">
+              <caret line="128" lean-forward="true" selection-start-line="128" selection-end-line="128" />
+              <folding>
+                <element signature="e#0#42#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/helpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
+            <state relative-caret-position="504">
               <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
@@ -144,9 +147,9 @@
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/weather.js" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/helpers.py" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/routes.py" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/helpers.py" />
       </list>
     </option>
   </component>
@@ -161,6 +164,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -197,13 +201,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554372333226" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/dir1/DublinBikesProject" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -297,7 +300,14 @@
       <option name="project" value="LOCAL" />
       <updated>1554367964481</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="MAchine learning model now get datetime and weather info&#10;Just needs to output results to map">
+      <created>1554975937529</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1554975937529</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -313,7 +323,7 @@
     <frame x="960" y="28" width="960" height="1052" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23365487" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23365487" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -327,7 +337,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32991204" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49864864" visible="true" weight="0.24406047" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49864864" visible="true" weight="0.36717063" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5006757" side_tool="true" weight="0.32991204" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49864864" weight="0.3313783" />
       <window_info anchor="bottom" id="Messages" order="10" />
@@ -416,7 +426,8 @@
     <MESSAGE value="Timer now actually updating properly" />
     <MESSAGE value="Date and time picker choice now changes the weather widget, displaying the forecast for the selection." />
     <MESSAGE value="Website redesign and responsive design complete." />
-    <option name="LAST_COMMIT_MESSAGE" value="Website redesign and responsive design complete." />
+    <MESSAGE value="MAchine learning model now get datetime and weather info&#10;Just needs to output results to map" />
+    <option name="LAST_COMMIT_MESSAGE" value="MAchine learning model now get datetime and weather info&#10;Just needs to output results to map" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/DublinBikeScraper/DBScraper.py">
@@ -547,15 +558,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
+        <state relative-caret-position="825">
           <caret line="55" selection-start-line="55" selection-end-line="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/helpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2081">
-          <caret line="248" column="23" selection-start-line="248" selection-start-column="23" selection-end-line="248" selection-end-column="23" />
+        <state relative-caret-position="231">
+          <caret line="263" column="86" selection-start-line="263" selection-start-column="86" selection-end-line="263" selection-end-column="86" />
           <folding>
             <element signature="n#style#0;n#header#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#footer#0;n#!!top" expanded="true" />
@@ -566,17 +587,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/helpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
+        <state relative-caret-position="169">
+          <caret line="128" lean-forward="true" selection-start-line="128" selection-end-line="128" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>

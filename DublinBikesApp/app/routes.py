@@ -64,24 +64,86 @@ def get_bike_info():
     try:
         result = helpers.get_date_time()
         date_time = int(result[0].strftime('%s'))
-        print(date_time)
         weekday = result[1]
         
         static_row = DbStaticInfo.query.all()
         static_info = helpers.get_static_data(static_row)
-        numbers = static_info['number']
+        #numbers = static_info['number']
         address = static_info['address']
-        #Model prediction comes in
-        #bikes = 
-        
-            
+
+        # Get date and time
+        result = helpers.get_date_time()
+
+        # Convert date to correct format
+        p = "%Y-%m-%d %H:%M:%S"
+        t = int(time.mktime(time.strptime(str(result[0]), p)))
+        day = result[1]
+
+        # Get weather
+        weather = helpers.getWeather(t)
+
+        # Dictionaries for converting weather strings to numeric representation
+        descriptionDict = {'broken clouds': 0,
+                           'scattered clouds': 1,
+                           'few clouds': 2,
+                           'clear sky': 3,
+                           'mist': 4,
+                           'fog': 5,
+                           'light rain': 6,
+                           'moderate rain': 7,
+                           'heavy intensity rain': 8,
+                           'very heavy rain': 9,
+                           'snow': 10,
+                           'light intensity shower rain': 11,
+                           'shower rain': 12,
+                           'light intensity drizzle': 13,
+                           'shower sleet': 14,
+                           'light intensity drizzle rain': 15,
+                           'drizzle': 16,
+                           'overcast clouds': 17}
+
+        overviewDict = {'Rain': 0,
+                        'Clouds': 1,
+                        'Fog': 2,
+                        'Snow': 3,
+                        'Clear': 4,
+                        'Mist': 5,
+                        'Drizzle': 6}
+
+        # Formatting info for passing to model
+        overview = weather["weather"][0]["main"]
+        description = weather["weather"][0]["description"]
+        temp = weather["main"]["temp"]
+        windSpeed = weather["wind"]["speed"]
+        clouds = weather["clouds"]["all"]
+        info = [date_time, day, overview, description, temp, windSpeed, clouds]
+
+        if overview not in overviewDict.keys():
+            info[2] = 20
+        else:
+            info[2] = overviewDict[info[2]]
+        if description not in descriptionDict.keys():
+            info[3] = 20
+        else:
+            info[3] = descriptionDict[info[3]]
+
+        print("Blessington:", model[2].predict([info])[0])
+
+        # Running model for all stations
+        bikePredictions = []
+        for i in sorted(model.keys()):
+            # Note: info needs to be a list in a list because model takes array
+            bikePredictions += [model[i].predict([info])[0]]
+
+        bikeInfo = {"bikes": bikePredictions, "address": address}
         #The max value selected is the largest value less than the date time entered by the user
         
-        max_values = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.last_update <= date_time)
-        ordered = DbDynamicInfo.query.filter(DbDynamicInfo.last_update >= max_values).order_by(DbDynamicInfo.last_update).limit(113).all()
-        dynamic_bikes = helpers.get_dynamic_data(DbStaticInfo.query.all(),ordered)
-        results = json.dumps({'bikes':dynamic_bikes['available_bikes'],'address':dynamic_bikes['address']})
-        return results
+        #max_values = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.last_update <= date_time)
+        #ordered = DbDynamicInfo.query.filter(DbDynamicInfo.last_update >= max_values).order_by(DbDynamicInfo.last_update).limit(113).all()
+        #dynamic_bikes = helpers.get_dynamic_data(DbStaticInfo.query.all(),ordered)
+        results = bikeInfo
+        print(json.dumps(str(results)))
+        return json.dumps(str(results))
     except:
         return "Error: unable to fetch dynamic data."
     
@@ -170,6 +232,7 @@ def prediction():
     for i in model.keys():
         # Note: info needs to be a list in a list because model takes array
         results[i] = model[i].predict([info])[0]
+
     for i in results.keys():
         print("Station:", i, "-", "Results:",results[i])
     return "result"

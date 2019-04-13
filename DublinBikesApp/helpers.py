@@ -52,8 +52,10 @@ def getWeather(t):
     i = 1
     # Find correct weather info
     while t < r["list"][i]["dt"]:
+        print(i)
         r["list"][i]["main"]["temp"]
         i += 1
+    print(r["list"][i])
     return r["list"][i]
     
     

@@ -59,6 +59,7 @@ def index():
         return "Error: unable to fetch data."
 
 
+
 @app.route("/get_bike_info", methods=["POST"])
 def get_bike_info():
     try:
@@ -127,26 +128,24 @@ def get_bike_info():
         else:
             info[3] = descriptionDict[info[3]]
 
-        print("Blessington:", model[2].predict([info])[0])
 
         # Running model for all stations
         bikePredictions = []
         for i in sorted(model.keys()):
             # Note: info needs to be a list in a list because model takes array
-            bikePredictions += [model[i].predict([info])[0]]
+            bikePredictions += [int(model[i].predict([info])[0])]
 
-        bikeInfo = {"bikes": bikePredictions, "address": address}
+        #bikeInfo = {"bikes": bikePredictions, "address": address}
         #The max value selected is the largest value less than the date time entered by the user
         
         #max_values = select([func.max(DbDynamicInfo.last_update)]).where(DbDynamicInfo.last_update <= date_time)
         #ordered = DbDynamicInfo.query.filter(DbDynamicInfo.last_update >= max_values).order_by(DbDynamicInfo.last_update).limit(113).all()
         #dynamic_bikes = helpers.get_dynamic_data(DbStaticInfo.query.all(),ordered)
-        results = bikeInfo
-        print(json.dumps(str(results)))
-        return json.dumps(str(results))
+        results = json.dumps({"bikes": bikePredictions, "address": address})
+        return results
     except:
         return "Error: unable to fetch dynamic data."
-    
+      
     
 @app.route("/infoWindow", methods=['POST'])
 def infoWindow():
@@ -167,6 +166,7 @@ def infoWindow():
         #Selecting all available bikes and times for past week.
         station_history = list(map(lambda x: x.available_bikes,limited_rows))
         #Times are returned as hrs and minutes.
+        
         time = list(map(lambda x: x.last_update.strftime("%H:%M"),limited_rows))
         results = json.dumps({"address":address,"bikestands":bikestands,"available_bikes":available_bikes,"station_history":station_history,"time":time})
         return results
@@ -183,10 +183,8 @@ def prediction():
     p = "%Y-%m-%d %H:%M:%S"
     t = int(time.mktime(time.strptime(str(result[0]), p)))
     day = result[1]
-
     # Get weather
     weather = helpers.getWeather(t)
-    print(weather)
 
     # Dictionaries for converting weather strings to numeric representation
     descriptionDict = {'broken clouds': 0,
@@ -232,7 +230,6 @@ def prediction():
     for i in model.keys():
         # Note: info needs to be a list in a list because model takes array
         results[i] = model[i].predict([info])[0]
-
     for i in results.keys():
         print("Station:", i, "-", "Results:",results[i])
     return "result"

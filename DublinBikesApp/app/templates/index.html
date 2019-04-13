@@ -165,9 +165,9 @@
                         //getDay works by saying Monday is 1 and so on until Sunday is 7.
                         var correct_weekday = today.getDay();
                         //Data is in reverse order so below we start at the end ad iterate until we reach the front
-                        for (var i = response.station_history.length; i >= 0; i-=4){
+                        for (var i = response.station_history.length-1; i >= 0; i-=4){
                             //One bike is updated 288 times a day so if this condition is true then a day has passed. NEEDS REVIEWING AS DAY DOESN'T START AT 00:00.
-                            if (i%288==0) {
+                            if (Number(response.time[i].substring(0,2))*60+Number(response.time[i].substring(3,5))<21) {
                                 correct_weekday+=1;
                             }
                             var average = 0;
@@ -176,7 +176,7 @@
                                 average += response.station_history[i+j];
                             }
                             //Adding the date rows containing the Weekday and Time associated to a bike number
-                            data.addRows([[""+weekdays[correct_weekday%7]+" "+response.time[i+j/2]+"",Math.floor(average/4)]]);
+                            data.addRows([[""+weekdays[correct_weekday%7]+" "+response.time[i]+"",Math.floor(average/4)]]);
                         }
                         var options = {
                           title: 'Bike Availability',
@@ -249,19 +249,16 @@ function getBikeInfo(){
       url: '/get_bike_info',
       data: JSON.stringify({date: date_time[0],time: date_time[1]}),
       success: function(response) {
-              console.log(response)
-
-        //var response = JSON.parse(response);
+        var response = JSON.parse(response);
         //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
         SEARCHING = true;
         //The response contains an list ordered by station number
-          console.log(MARKERS[0].info);
           for (var i = 0; i < 114;i++){
               for (var j = 0; j<MARKERS.length;j++){
                   //This check is necessary as the station numbers start at 2 and go to 115.
                   if (i+2 == MARKERS[j].id) {
                     //Recalculating availability and altering marker colours accordingly.
-                    var ratio_bike_to_stands = response['bikes'][i]/MARKERS[j].stands;
+                    var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
                     if (ratio_bike_to_stands<0.25){
                         MARKERS[j].setIcon('./static/images/red_markerC.png');
                     } 

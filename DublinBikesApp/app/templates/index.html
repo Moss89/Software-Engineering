@@ -64,9 +64,11 @@
 
         </div>
     </div>
-</footer>
-<div id='footer'></div>
+<div id='graph'>
+<div id='chart'></div>
+</div>
 
+</footer>
 <script>
     <!--window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];-->
     <!--window.myWidgetParam.push({-->
@@ -93,6 +95,7 @@
     <!--})-->
 </script>
 <script>
+    
     //Boolean represents whether user is looking for past info or current info.If false then the infowindow is refresehed. If true it is not
     var SEARCHING = false;
     //Array for all markers on page
@@ -127,6 +130,7 @@
         var marker = new google.maps.Marker({
             position:coords,
             map:map,
+            animation: google.maps.Animation.DROP,
             icon:photo_icon,
             id:number,
             stands:available_bike_stands,
@@ -158,16 +162,17 @@
 
                     function drawChart() {
                         var data = new google.visualization.DataTable();
-                        data.addColumn('string','Day')
+                        data.addColumn('string','Day');
                         data.addColumn('number', 'Bikes');
-                        var weekdays = ['Sunday','Monday','Tuesay','Wednesday','Thursday','Friday','Saturday'];
+                        data.addColumn({type: 'string', role: 'tooltip'});
+                        var weekdays = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'];
                         var today = new Date();
                         //getDay works by saying Monday is 1 and so on until Sunday is 7.
                         var correct_weekday = today.getDay();
                         //Data is in reverse order so below we start at the end ad iterate until we reach the front
                         for (var i = response.station_history.length-1; i >= 0; i-=4){
                             //One bike is updated 288 times a day so if this condition is true then a day has passed. NEEDS REVIEWING AS DAY DOESN'T START AT 00:00.
-                            if (Number(response.time[i].substring(0,2))*60+Number(response.time[i].substring(3,5))<21) {
+                            if (Number(response.time[i].substring(0,2))*60+Number(response.time[i].substring(3,5))<20) {
                                 correct_weekday+=1;
                             }
                             var average = 0;
@@ -176,18 +181,71 @@
                                 average += response.station_history[i+j];
                             }
                             //Adding the date rows containing the Weekday and Time associated to a bike number
-                            data.addRows([[""+weekdays[correct_weekday%7]+" "+response.time[i]+"",Math.floor(average/4)]]);
+                            data.addRows([[weekdays[correct_weekday%7],Math.floor(average/4),"Bikes: "+Math.floor(average/4)+"\n Time:  "+response.time[i]]]);
                         }
+                        
                         var options = {
                           title: 'Bike Availability',
-                          curveType: 'function',
-                          chartArea:{width:'100%'},	
-                          legend: { position: 'bottom' },
+                          chartArea:{width:'75%'},
+                          legend: {position: 'bottom'},
+                          hAxis: {showTextEvery: 70},
+                            backgroundColor: 'transparent'
                         };
 
-                        var chart = new google.visualization.LineChart(document.getElementById('footer'));
+                        var chart = new google.visualization.LineChart(document.getElementById('chart'));
+   //linear gradient on line graph from here
+//"https://stackoverflow.com/questions/33949913/how-to-create-color-gradient-on-google-visualization-line-chart"
+                        google.visualization.events.addOneTimeListener(chart, 'ready', function () {
+        addChartGradient(chart);
+    });
+    chart.draw(data, options);
+}
 
-                        chart.draw(data, options);
+function addChartGradient(chart) {
+    var chartDiv = chart.getContainer();
+    var svg = chartDiv.getElementsByTagName('svg')[0];
+    var properties = {
+        id: "chartGradient",
+        x1: "0%",
+        y1: "0%",
+        x2: "0%",
+        y2: "100%",
+        stops: [
+            { offset: '5%', 'stop-color': '#0C0' },
+            { offset: '50%', 'stop-color': '#ffa500'
+            },
+            { offset: '95%', 'stop-color': '#B20000' }
+        ]
+    };
+    
+
+    createGradient(svg, properties);
+    var chartPath = svg.getElementsByTagName('path')[1];  //0 path corresponds to legend path
+    chartPath.setAttribute('stroke', 'url(#chartGradient)');
+}
+
+
+function createGradient(svg, properties) {
+    var svgNS = svg.namespaceURI;
+    var grad = document.createElementNS(svgNS, 'linearGradient');
+    grad.setAttribute('id', properties.id);
+    ["x1","y1","x2","y2"].forEach(function(name) {
+        if (properties.hasOwnProperty(name)) {
+            grad.setAttribute(name, properties[name]);
+        }
+    });
+    for (var i = 0; i < properties.stops.length; i++) {
+        var attrs = properties.stops[i];
+        var stop = document.createElementNS(svgNS, 'stop');
+        for (var attr in attrs) {
+            if (attrs.hasOwnProperty(attr)) stop.setAttribute(attr, attrs[attr]);
+        }
+        grad.appendChild(stop);
+    }
+
+    var defs = svg.querySelector('defs') ||
+        svg.insertBefore(document.createElementNS(svgNS, 'defs'), svg.firstChild);
+    return defs.appendChild(grad);
                         }              
                     },
             error: function(error) {
@@ -208,7 +266,7 @@
             }
             //Closing the line chart when the infoWindow is closed.NEEDS REVIEWING.CLOSES WHEN IRRELEVANT INFOWINDOW CLOSED
             google.maps.event.addListener(infoWindow,'closeclick',function(){
-            document.getElementById("footer").innerHTML = '';
+            document.getElementById("chart").innerHTML = '';
         });
     });
        

@@ -17,6 +17,9 @@
                 </div>
     </div>
 
+<div id='graph'>
+<div id='chart'></div>
+</div>
 
 
 <footer>
@@ -64,10 +67,6 @@
 
         </div>
     </div>
-<div id='graph'>
-<div id='chart'></div>
-</div>
-
 </footer>
 <script>
     <!--window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];-->
@@ -108,6 +107,7 @@
         }
     //Add map
     var map = new google.maps.Map(document.getElementById('map'),options);
+    google.maps.event.addListenerOnce(map, 'idle', function(){jQuery('.gm-style-iw').prev('div').remove();}); 
     function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown',number){
         //Choosing the correct image for the icon depending on availability of bikes
         if (available_bike_stands=='Unknown'){
@@ -125,7 +125,7 @@
                 var photo_icon = './static/images/green_markerC.png';
             }
         }
-            var info = '<h1>'+address+'</h1><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p>'
+            var info = '<div><h3>'+address+'</h3><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p></div>'
         //Add marker with specific information such as its id and number of stands per bike stand. 
         var marker = new google.maps.Marker({
             position:coords,
@@ -154,7 +154,7 @@
                     success: function(response) {
                         var response = JSON.parse(response); 
                         //Infowindow's contents changed to be current results
-                        infoWindow.setContent('<h1>'+response.address+'</h1><br><p>Current number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p>');
+                        infoWindow.setContent('<div><h3>'+response.address+'</h3><br><p>Current number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p></div>');
                      
                     //Setting up line chart    
                     google.charts.load('current', {'packages':['corechart','line']});
@@ -170,8 +170,7 @@
                         //getDay works by saying Monday is 1 and so on until Sunday is 7.
                         var correct_weekday = today.getDay();
                         //Data is in reverse order so below we start at the end ad iterate until we reach the front
-                        for (var i = response.station_history.length-1; i >= 0; i-=4){
-                            //One bike is updated 288 times a day so if this condition is true then a day has passed. NEEDS REVIEWING AS DAY DOESN'T START AT 00:00.
+                        for (var i = response.station_history.length-1; i >= 0; i-=4){ 
                             if (Number(response.time[i].substring(0,2))*60+Number(response.time[i].substring(3,5))<20) {
                                 correct_weekday+=1;
                             }
@@ -185,13 +184,16 @@
                         }
                         
                         var options = {
-                          title: 'Bike Availability',
+                          title: ""+response.address+"",
+                          titleTextStyle: {color: '#ededed'},
+                          fontSize: 16,
                           chartArea:{width:'75%'},
-                          legend: {position: 'bottom'},
-                          hAxis: {showTextEvery: 70},
-                            backgroundColor: 'transparent'
+                          legend: {textStyle:{fontSize:1}},
+                          hAxis: {showTextEvery: 70, textStyle:{color:'#ededed'}},
+                          backgroundColor: 'transparent',
+                          vAxis: {textStyle:{color:'#ededed'},titleTextStyle:{color:'#ededed'}}
                         };
-
+                        function resize(){
                         var chart = new google.visualization.LineChart(document.getElementById('chart'));
    //linear gradient on line graph from here
 //"https://stackoverflow.com/questions/33949913/how-to-create-color-gradient-on-google-visualization-line-chart"
@@ -199,6 +201,9 @@
         addChartGradient(chart);
     });
     chart.draw(data, options);
+            }
+            window.onload = resize();
+            window.onresize = resize;
 }
 
 function addChartGradient(chart) {
@@ -254,21 +259,120 @@ function createGradient(svg, properties) {
                 });
                 //Opening infoWindow and setting a time out counter for it.   
                 infoWindow.open(map, marker);
-                setTimeout(function(){infoWindow.close(map,marker);}, '100000');
+                setTimeout(function(){infoWindow.close(map,marker);}, '10000');
                 map.setCenter(marker.getPosition());
                     
             } else{
-                infoWindow.setContent(marker.info);
-                infoWindow.open(map, marker);
-                setTimeout(function(){infoWindow.close(map,marker);}, '100000');
-                map.setCenter(marker.getPosition());
-                
-            }
-            //Closing the line chart when the infoWindow is closed.NEEDS REVIEWING.CLOSES WHEN IRRELEVANT INFOWINDOW CLOSED
-            google.maps.event.addListener(infoWindow,'closeclick',function(){
-            document.getElementById("chart").innerHTML = '';
-        });
+                var pos = marker.getPosition();
+                var date_time = Submit();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: '/prediction_day', 
+                    data: JSON.stringify({lat: pos.lat(),lng: pos.lng(),date: date_time[0],time: date_time[1]}),
+                    success: function(response) {
+                        var response = JSON.parse(response); 
+                     
+                    //Setting up line chart    
+                    google.charts.load('current', {'packages':['corechart','line']});
+                    google.charts.setOnLoadCallback(drawChart);
+
+                    function drawChart() {
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string','Time');
+                        data.addColumn('number', 'Bikes');
+                        data.addColumn({type: 'string', role: 'tooltip'});
+                        var weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                        var day = weekdays[response['day']-1];
+                        //Response.time contains the last day of information
+                        for (var i = response.time.length-1;i >= 0; i--){
+                            //Adding the date rows containing the Weekday and Time associated to a bike number
+                            data.addRows([[response.time[i],response.day_results[i],"Bikes: "+response.day_results[i]+"\n Time:  "+response.time[i]]]);
+                        }
+                        
+                        var options = {
+                          title: ""+response.address+" last "+day+"",
+                          titleTextStyle: {color: '#ededed'},
+                          fontSize: 16,
+                          chartArea:{width:'75%'},
+                          legend: {textStyle:{fontSize:1}},
+                          hAxis: {showTextEvery: 25, textStyle:{color:'#ededed'}},
+                          backgroundColor: 'transparent',
+                          vAxis: {textStyle:{color:'#ededed'},titleTextStyle:{color:'#ededed'}}
+                        };
+                        function resize(){
+                        var chart = new google.visualization.LineChart(document.getElementById('chart'));
+   //linear gradient on line graph from here
+//"https://stackoverflow.com/questions/33949913/how-to-create-color-gradient-on-google-visualization-line-chart"
+                        google.visualization.events.addOneTimeListener(chart, 'ready', function () {
+        addChartGradient(chart);
     });
+    chart.draw(data, options);
+            }
+            window.onload = resize();
+            window.onresize = resize;
+}
+
+function addChartGradient(chart) {
+    var chartDiv = chart.getContainer();
+    var svg = chartDiv.getElementsByTagName('svg')[0];
+    var properties = {
+        id: "chartGradient",
+        x1: "0%",
+        y1: "0%",
+        x2: "0%",
+        y2: "100%",
+        stops: [
+            { offset: '5%', 'stop-color': '#0C0' },
+            { offset: '50%', 'stop-color': '#ffa500'
+            },
+            { offset: '95%', 'stop-color': '#B20000' }
+        ]
+    };
+    
+
+    createGradient(svg, properties);
+    var chartPath = svg.getElementsByTagName('path')[1];  //0 path corresponds to legend path
+    chartPath.setAttribute('stroke', 'url(#chartGradient)');
+}
+
+
+function createGradient(svg, properties) {
+    var svgNS = svg.namespaceURI;
+    var grad = document.createElementNS(svgNS, 'linearGradient');
+    grad.setAttribute('id', properties.id);
+    ["x1","y1","x2","y2"].forEach(function(name) {
+        if (properties.hasOwnProperty(name)) {
+            grad.setAttribute(name, properties[name]);
+        }
+    });
+    for (var i = 0; i < properties.stops.length; i++) {
+        var attrs = properties.stops[i];
+        var stop = document.createElementNS(svgNS, 'stop');
+        for (var attr in attrs) {
+            if (attrs.hasOwnProperty(attr)) stop.setAttribute(attr, attrs[attr]);
+        }
+        grad.appendChild(stop);
+    }
+
+    var defs = svg.querySelector('defs') ||
+        svg.insertBefore(document.createElementNS(svgNS, 'defs'), svg.firstChild);
+    return defs.appendChild(grad);
+                        }
+                        infoWindow.open(map, marker);
+                setTimeout(function(){infoWindow.close(map,marker);}, '50000');
+                map.setCenter(marker.getPosition());
+                    },
+            error: function(error) {
+                console.log(error);
+            }
+                });
+                //Opening infoWindow and setting a time out counter for it.   
+                infoWindow.open(map, marker);
+                setTimeout(function(){infoWindow.close(map,marker);}, '50000');
+                map.setCenter(marker.getPosition());
+            }
+        });
        
 }
             {% for item in range(0,len) %}
@@ -326,12 +430,11 @@ function getBikeInfo(){
                     else {
                         MARKERS[j].setIcon('./static/images/green_markerC.png');
                     }
-                    MARKERS[j].info='<h1>'+response.address[i]+'</h1><br><p>Current number of bikestands:'+MARKERS[j].stands+'</p><br><p>Current number of bikes:'+response.bikes[i]+'</p>';
+                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Current number of bikestands:'+MARKERS[j].stands+'</p><br><p>Current number of bikes:'+response.bikes[i]+'</p>';
                     
                   }
               }
           }
-          console.log(MARKERS[0].info);
       },
         error: function(error) {
           console.log(error);

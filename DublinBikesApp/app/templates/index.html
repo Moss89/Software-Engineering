@@ -125,7 +125,7 @@
                 var photo_icon = './static/images/green_markerC.png';
             }
         }
-            var info = '<div><h3>'+address+'</h3><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p></div>'
+            var info = '<div><h3>'+address+'</h3><br><p>Number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p></div>'
         //Add marker with specific information such as its id and number of stands per bike stand. 
         var marker = new google.maps.Marker({
             position:coords,
@@ -154,7 +154,7 @@
                     success: function(response) {
                         var response = JSON.parse(response); 
                         //Infowindow's contents changed to be current results
-                        infoWindow.setContent('<div><h3>'+response.address+'</h3><br><p>Current number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p></div>');
+                        infoWindow.setContent('<div><h3>'+response.address+'</h3><br><p>Number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p></div>');
                      
                     //Setting up line chart    
                     google.charts.load('current', {'packages':['corechart','line']});
@@ -413,10 +413,12 @@ function getBikeInfo(){
         //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
         SEARCHING = true;
         //The response contains an list ordered by station number
-          for (var i = 0; i < 114;i++){
+          for (var i = 0; i < 115;i++){
               for (var j = 0; j<MARKERS.length;j++){
                   //This check is necessary as the station numbers start at 2 and go to 115.
-                  if (i+2 == MARKERS[j].id) {
+                  if (i >= 20) {
+                      k = i + 1
+                  if (k+2 == MARKERS[j].id) {
                     //Recalculating availability and altering marker colours accordingly.
                     var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
                     if (ratio_bike_to_stands<0.25){
@@ -428,9 +430,10 @@ function getBikeInfo(){
                     else {
                         MARKERS[j].setIcon('./static/images/green_markerC.png');
                     }
-                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Current number of bikestands:'+MARKERS[j].stands+'</p><br><p>Current number of bikes:'+response.bikes[i]+'</p>';
+                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
                     
                   }
+                }
               }
           }
       },

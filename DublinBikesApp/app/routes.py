@@ -7,7 +7,7 @@ import pickle
 import time
 import json
 from sqlalchemy.sql.expression import func,select
-from sqlalchemy import and_,desc,asc
+from sqlalchemy import desc
 from alembic.command import current
 from jedi.evaluate import dynamic
 from flask.globals import request
@@ -167,9 +167,9 @@ def prediction_day():
     #Getting a days result from a bike station
     # Get date and time
     result = helpers.get_date_time()
-    #Minus 2 to make python .weekday match with mysql's weekdays
+    #aDDING 2 to make python .weekday method match with mysql's weekdays
     #Monday in mysql is 2 and 0 in python
-    weekday = (result[1] + 2) % 7
+    weekday = (result[1] + 1) % 7 + 1
     lat_lng = helpers.get_lat_lng()
     #Returns a tuple containing lat and lng as two 6 decimal floats
     lat = lat_lng[0]

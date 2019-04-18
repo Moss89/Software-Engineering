@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<!--Header is only shown in mobile view - Tom-->
 <header id = "hiddenHeader" style="align:center">
     <img id="headerLogo" src="/static/images/logo2.png" alt="logo">
 </header>
-
+<!--Setting up of Bootstrap for map section - Tom-->
 <div class="container-fluid">
 
     <div class="row">
-
+                <!--Added map to web page - Tom-->
                 <div class="col-sm-12 padding-0">
                     <div id="map"></div>
                 </div>
@@ -23,15 +23,17 @@
 
 
 <footer>
+    <!--Bootstrap container for the footer section - Tom-->
     <div class="container-fluid">
         <div class="row">
     <div class="col-xl-2" id="logoCol">
+        <!--F.A.B logo - Tom-->
         <img class = "logo" id="footerLogo" src="/static/images/logo2.png" alt="logo">
     </div>
 
-
             <div class="col-xl-7">
-
+                <!--Weather widget - Tom-->
+                <!--https://codepen.io/cmd430/pen/yyQgLa-->
                 <div id="weather_wrapper" style="background-color: rgb(42, 178, 234);
         border: 2px rgb(42, 178, 234) solid; border-radius: 6px;">
                     <div class="weatherCard">
@@ -54,45 +56,22 @@
 
 
     <div class="col-xl-3">
-        <div style="width: 100%; margin-top:10px; margin-bottom:10px; height: auto; background-color: white;
+        <!--Date-Time picker - Tom-->
+        <div style="width: 100%; margin-bottom:15px; height: 195px; background: rgb(237, 237, 237);
         border: 2px rgb(42, 178, 234) solid; border-radius: 6px; text-align: center">
-        <img src="{{url_for('static', filename='images/clock.png')}}" width="100px" height="auto" />
-        <form action="/signUp" method="post" role="form" id="picker">
-        <input type="date" name="date" id = "date">
+            <img style="margin-top: 20px" src="{{url_for('static', filename='images/cal.png')}}" width="100px" height="auto" />
+            <form action="/signUp" method="post" role="form" id="picker">
+        <input style= "margin-top: 5px;" type="date" name="date" id = "date">
         <input type="time" name="time" id = "time">
-        <button onclick="searchXML()" class="btn btn-sm btn-primary btn-block" id = "timepick" type="button">Submit</button>
-        </form>
+                <button onclick="futureWeather()" id = "timepick" type="button">Submit</button>
+            </form>
         </div>
     </div>
 
         </div>
     </div>
 </footer>
-<script>
-    <!--window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];-->
-    <!--window.myWidgetParam.push({-->
-        <!--id: 12,-->
-        <!--cityid: '2964574',-->
-        <!--appid: '718d1e3d695907c31b9a4b710e8348f5',-->
-        <!--units: 'metric',-->
-        <!--containerid: 'openweathermap-widget-12',-->
-    <!--});-->
-    <!--(function() {-->
-        <!--var script = document.createElement('script');-->
-        <!--script.async = true;-->
-        <!--script.charset = "utf-8";-->
-        <!--script.src = "//openweathermap.org/themes/openweathermap/assets/vendor/owm/js/weather-widget-generator.js";-->
-        <!--var s = document.getElementsByTagName('script')[0];-->
-        <!--s.parentNode.insertBefore(script, s);-->
-    <!--})();-->
-    <!--$(document).ready(function() {-->
-        <!--$('#picker').dateTimePicker();-->
-        <!--$('#picker-no-time').dateTimePicker({-->
-            <!--showTime: false,-->
-            <!--dateFormat: 'DD/MM/YYYY'-->
-        <!--});-->
-    <!--})-->
-</script>
+
 <script>
     
     //Boolean represents whether user is looking for past info or current info.If false then the infowindow is refresehed. If true it is not
@@ -125,8 +104,8 @@
                 var photo_icon = './static/images/green_markerC.png';
             }
         }
-            var info = '<div><h3>'+address+'</h3><br><p>Current number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p></div>'
-        //Add marker with specific information such as its id and number of stands per bike stand. 
+            var info = '<div><h3>'+address+'</h3><br><p>Number of bikestands:'+available_bike_stands+'</p><br><p>Current number of bikes:'+available_bikes+'</p></div>'
+        //Add marker with specific information such as its id and number of stands per bike stand.
         var marker = new google.maps.Marker({
             position:coords,
             map:map,
@@ -149,14 +128,14 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    url: '/infoWindow', 
+                    url: '/infoWindow',
                     data: JSON.stringify({lat: pos.lat(),lng: pos.lng()}),
                     success: function(response) {
-                        var response = JSON.parse(response); 
+                        var response = JSON.parse(response);
                         //Infowindow's contents changed to be current results
-                        infoWindow.setContent('<div><h3>'+response.address+'</h3><br><p>Current number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p></div>');
-                     
-                    //Setting up line chart    
+                        infoWindow.setContent('<div><h3>'+response.address+'</h3><br><p>Number of bikestands:'+(response.bikestands)+'</p><br><p>Current number of bikes:'+response.available_bikes+'</p></div>');
+
+                    //Setting up line chart
                     google.charts.load('current', {'packages':['corechart','line']});
                     google.charts.setOnLoadCallback(drawChart);
 
@@ -170,7 +149,7 @@
                         //getDay works by saying Monday is 1 and so on until Sunday is 7.
                         var correct_weekday = today.getDay();
                         //Data is in reverse order so below we start at the end ad iterate until we reach the front
-                        for (var i = response.station_history.length-1; i >= 0; i-=4){ 
+                        for (var i = response.station_history.length-1; i >= 0; i-=4){
                             if (Number(response.time[i].substring(0,2))*60+Number(response.time[i].substring(3,5))<20) {
                                 correct_weekday+=1;
                             }
@@ -182,7 +161,7 @@
                             //Adding the date rows containing the Weekday and Time associated to a bike number
                             data.addRows([[weekdays[correct_weekday%7],Math.floor(average/4),"Bikes: "+Math.floor(average/4)+"\n Time:  "+response.time[i]]]);
                         }
-                        
+
                         var options = {
                           title: ""+response.address+"",
                           titleTextStyle: {color: '#ededed'},
@@ -249,17 +228,17 @@
                     var defs = svg.querySelector('defs') ||
                         svg.insertBefore(document.createElementNS(svgNS, 'defs'), svg.firstChild);
                     return defs.appendChild(grad);
-                                        }              
+                                        }
                                     },
                             error: function(error) {
                                 console.log(error);
                             }
                                 });
-                                //Opening infoWindow and setting a time out counter for it.   
+                                //Opening infoWindow and setting a time out counter for it.
                                 infoWindow.open(map, marker);
                                 setTimeout(function(){infoWindow.close(map,marker);}, '10000');
                                 map.setCenter(marker.getPosition());
-                    
+
             } else{
                 //If this is called then the user has made a prediction and we want to return a graph that is relevant to that day instead of the last week. The code below does this
                 var pos = marker.getPosition();
@@ -267,12 +246,12 @@
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    url: '/prediction_day', 
+                    url: '/prediction_day',
                     data: JSON.stringify({lat: pos.lat(),lng: pos.lng(),date: date_time[0],time: date_time[1]}),
                     success: function(response) {
-                        var response = JSON.parse(response); 
-                     
-                    //Setting up line chart    
+                        var response = JSON.parse(response);
+
+                    //Setting up line chart
                     google.charts.load('current', {'packages':['corechart','line']});
                     google.charts.setOnLoadCallback(drawChart);
 
@@ -287,7 +266,7 @@
                         for (var i = response.time.length-1;i >= 0; i--){
                             data.addRows([[response.time[i],response.day_results[i],"Bikes: "+response.day_results[i]+"\n Time:  "+response.time[i]]]);
                         }
-                        
+
                         var options = {
                           title: ""+response.address+" usage last "+day+"",
                           titleTextStyle: {color: '#ededed'},
@@ -365,17 +344,17 @@
                 console.log(error);
             }
                 });
-                //Opening infoWindow and setting a time out counter for it.   
+                //Opening infoWindow and setting a time out counter for it.
                 infoWindow.open(map, marker);
                 setTimeout(function(){infoWindow.close(map,marker);}, '50000');
                 map.setCenter(marker.getPosition());
             }
         });
-       
+
 }
             {% for item in range(0,len) %}
             var position = {lat:{{lat[item]}},lng:{{lng[item]}}};
-            var specific_address ="{{address[item]}}"; 
+            var specific_address ="{{address[item]}}";
             var bikestands = "{{bikestands[item]}}";
             var available_bikes = "{{available_bikes[item]}}";
             var station_id = "{{number[item]}}";
@@ -384,7 +363,7 @@
 }
 //Adding event listener to submit button
 document.getElementById('timepick').addEventListener('click',getBikeInfo);
-        
+
 function Submit(){
   var date = GetDate();
   var time = GetTime();
@@ -413,22 +392,28 @@ function getBikeInfo(){
         //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
         SEARCHING = true;
         //The response contains an list ordered by station number
-          for (var i = 0; i < 114;i++){
+          for (var i = 0; i < 115;i++){
               for (var j = 0; j<MARKERS.length;j++){
                   //This check is necessary as the station numbers start at 2 and go to 115.
-                  if (i+2 == MARKERS[j].id) {
+                  if (i >= 20) {
+                      k = i + 1
+                  }else {
+                      k = i
+                  }
+
+                  if (k+2 == MARKERS[j].id) {
                     //Recalculating availability and altering marker colours accordingly.
                     var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
                     if (ratio_bike_to_stands<0.25){
                         MARKERS[j].setIcon('./static/images/red_markerC.png');
-                    } 
+                    }
                     else if (ratio_bike_to_stands<=0.5){
                         MARKERS[j].setIcon('./static/images/orange_markerC.png');
-                    } 
+                    }
                     else {
                         MARKERS[j].setIcon('./static/images/green_markerC.png');
                     }
-                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Current number of bikestands:'+MARKERS[j].stands+'</p><br><p>Current number of bikes:'+response.bikes[i]+'</p>';
+                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
                     
                   }
               }
@@ -441,8 +426,8 @@ function getBikeInfo(){
 }
 </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"
-    async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"
+        async defer></script>
 
 
 {% endblock %}

@@ -4,26 +4,52 @@
         <meta name="viewport" content="width=device-width, inital-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{{ title }}</title>
-        
+
+        <!-- Website charts - Tom-->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <!--jQuery scripts-->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='weather.js') }}"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!--Local JS files - Tom-->
+        <script type="text/javascript" src="{{ url_for('static', filename='weather.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='DublinBikes.js') }}"></script>
-        
-        <!--<link href="css/datetimepicker.css" rel="stylesheet" type="text/css" />-->
+
+        <!--Fonts and icons-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!--<script type="text/javascript" src="js/datetimepicker.js"></script>-->
         <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/1.2/css/weather-icons.min.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+
+        <!--Bootstrap-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+        <!--Links to the local CSS files - Tom-->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/weather.css') }}">
-        
-         <style>
+
+        <!--Fancy alert box-->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <!--Favicon created from: https://realfavicongenerator.net
+        Works on a variety of devices.-->
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/images/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon/favicon-16x16.png">
+        <link rel="manifest" href="/static/images/favicon/site.webmanifest">
+        <link rel="mask-icon" href="/static/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/static/images/favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="/static/images/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--Google maps - Tom-->
+
+
+
+        <style>
             #map {
                 height:72%;
                 width:100%;

@@ -7,7 +7,7 @@ import pickle
 import time
 import json
 from sqlalchemy.sql.expression import func,select
-from sqlalchemy import and_,desc,asc
+from sqlalchemy import desc
 from alembic.command import current
 from jedi.evaluate import dynamic
 from flask.globals import request
@@ -32,7 +32,7 @@ def index():
         static_table = DbStaticInfo.query.all()
         static_info = helpers.get_static_data(static_table)
         #Dynamic row results in a list of rows ordered by desc id. This is not in the same order as above
-        dynamic_rows = DbDynamicInfo.query.order_by(desc(DbDynamicInfo.id)).limit(113).all()    
+        dynamic_rows = DbDynamicInfo.query.order_by(desc(DbDynamicInfo.id)).limit(113).all()
         lat, lng, address,available_bikes, bikestands,number = ([] for i in range(6))
         bikes = {}
         bikestands = static_info['bikestands']
@@ -45,16 +45,16 @@ def index():
             bikes[dynamic_rows[i].number] = dynamic_rows[i].available_bikes
         #Sorting the bike list to be ordered by number
         sorted_bikes = sorted(bikes.items())
-        #Appending the value of each key to a list with a list comprehension 
+        #Appending the value of each key to a list with a list comprehension
         available_bikes = [i[1] for i in sorted_bikes]
         return render_template("index.html",
-                                len = len(lat),
-                                lat = lat,
-                                lng = lng,
-                                address = address,
-                                bikestands = bikestands,
-                                number = number,
-                                available_bikes = available_bikes)
+                               len = len(lat),
+                               lat = lat,
+                               lng = lng,
+                               address = address,
+                               bikestands = bikestands,
+                               number = number,
+                               available_bikes = available_bikes)
     except:
         return "Error: unable to fetch data."
 
@@ -65,7 +65,7 @@ def get_bike_info():
     try:
         result = helpers.get_date_time()
         date_time = int(result[0].strftime('%s'))
-        
+
         static_row = DbStaticInfo.query.all()
         static_info = helpers.get_static_data(static_row)
         #numbers = static_info['number']
@@ -128,13 +128,13 @@ def get_bike_info():
         for i in sorted(model.keys()):
             # Note: info needs to be a list in a list because model takes array
             bikePredictions += [int(model[i].predict([info])[0])]
-            
+
         results = json.dumps({"bikes": bikePredictions, "address": address})
         return results
     except:
         return "Error: unable to fetch dynamic data."
-      
-    
+
+
 @app.route("/infoWindow", methods=['POST'])
 def infoWindow():
     try:
@@ -154,11 +154,11 @@ def infoWindow():
         #Selecting all available bikes and times for past week.
         station_history = list(map(lambda x: x.available_bikes,limited_rows))
         #Times are returned as hrs and minutes.
-        
+
         time = list(map(lambda x: x.last_update.strftime("%H:%M"),limited_rows))
         results = json.dumps({"address":address,"bikestands":bikestands,"available_bikes":available_bikes,"station_history":station_history,"time":time})
         return results
-        
+
     except:
         return "Error: unable to fetch data."
 
@@ -167,9 +167,9 @@ def prediction_day():
     #Getting a days result from a bike station
     # Get date and time
     result = helpers.get_date_time()
-    #Minus 2 to make python .weekday match with mysql's weekdays
+    #aDDING 2 to make python .weekday method match with mysql's weekdays
     #Monday in mysql is 2 and 0 in python
-    weekday = (result[1] + 2) % 7
+    weekday = (result[1] + 1) % 7 + 1
     lat_lng = helpers.get_lat_lng()
     #Returns a tuple containing lat and lng as two 6 decimal floats
     lat = lat_lng[0]

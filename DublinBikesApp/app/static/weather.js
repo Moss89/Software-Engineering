@@ -1,3 +1,12 @@
+/*
+########################################################
+# Author: Tomas Murphy                                 #
+# Description: Javascript for the weather and          #
+# date-time picker.                                    #
+########################################################
+*/
+
+// Function called on page load to get weather XML from openweatherdata
 function currentWeather() {
 
             var currentxhttp = new XMLHttpRequest();
@@ -10,8 +19,7 @@ function currentWeather() {
             currentxhttp.send();
         }
 
-
-
+// Extract data from XML and pass data to weather widget
         function currentW(xml) {
             var xmlDoc = xml.responseXML;
 
@@ -21,6 +29,7 @@ function currentWeather() {
 
             var temp = x.childNodes[1];
             var temperature = temp.getAttribute('value');
+            // Update the inner HTML of the weather widget.
             document.getElementById("temp").innerHTML = temperature;
 
             var wind = x.childNodes[4].childNodes[0];
@@ -41,32 +50,41 @@ function currentWeather() {
 
         }
 
+// Called upon clicking the submit button to get openweathermap's forecast XML.
 
-function searchXML() {
+function futureWeather() {
     var xhttp = new XMLHttpRequest();
+    // Taking weather and date values from the input sections of the website.
     var date = document.getElementById("date").value;
     var time = document.getElementById("time").value;
 
+    // Formatting a date time string to match the openweathermap XML format.
     var dateTime = date.toString() + "T" + time.toString()
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            myFunction(this,dateTime);
+            // Pass the date time string.
+            futureW(this,dateTime);
         }
     };
     xhttp.open("GET", "https://api.openweathermap.org/data/2.5/forecast/?q=dublin&APPID=718d1e3d695907c31b9a4b710e8348f5&units=metric&cnt=200&mode=xml", false);
     xhttp.send();
 }
-
-        function myFunction(xml, dateTime) {
+        // Used to find future weather at a specified day/time and update the weather widget.
+        function futureW(xml, dateTime) {
 
             var xmlDoc = xml.responseXML;
 
+            /* The weather forecast only gives the forecast in 3 hour chunks (00:00, 03:00, 06:00 etc.)
+                and thus the user inputted time needs to be formatted and rounded to match the closest forecast time.
+                For example, any times from 23:00 to 01:00 are made to equal 00:00, any times from 17:00 to 19:00
+                are made equal to 18:00 and so on.
+            */
             var pos = dateTime.search("T");
             var formatDate = dateTime.slice(0,pos);
 
             var formatTime = dateTime.slice(pos+1,pos+3);
             newString = "";
-
+            // Getting the hour, and assigning it to the closest 3 hour block
             switch(formatTime) {
               case "23": case "00": case "01":
                 newString = ""+ formatDate + "T" + "00:00:00"
@@ -93,19 +111,28 @@ function searchXML() {
                   newString = ""+ formatDate + "T" + "21:00:00"
                                 break;
               default:
-                alert("An error has occurred; please try again")
+              // Fancy looking alert box for errors
+                 swal({
+                      title:"Whoops!",
+                      text: "This website can predict bike availability up to exactly 5 days from this current time! \n\n Please enter a date and time within a 5 day period from now :)",
+                      icon: "warning"})
+
                 break;
             }
 
 
-
+            // Check if the date and time are in the forecast
             myX = xmlDoc.getElementsByTagName("symbol");
+            var found = false;
             for (i = 0; i < myX.length; i++) {
 
                 var x = xmlDoc.getElementsByTagName("forecast")[0];
                 var y = x.childNodes[i];
                 var time = y.getAttribute('from');
+
+                // If the date time is present, then update the weather widget
                 if (newString == time) {
+                    found = true;
                     var weather = x.childNodes[i].childNodes[0];
                     var overview = weather.getAttribute('name');
 
@@ -138,9 +165,15 @@ function searchXML() {
 
 
             }
+            // If not found, then show the fancy alert message
+            if (found == false){
+                swal({
+                      title:"Whoops!",
+                      text: "This website can predict bike availability up to exactly 5 days from this current time! \n\n Please enter a date and time within a 5 day period from now :)",
+                      icon: "warning"})
+            }
         }
-
-
+                // The type of weather that is returned as part of the overview decides the weather icon used in the weather widget.
                     function weatherIcons(overview){
                     if (overview.includes("thunderstorm")) {
                         document.getElementById("image").innerHTML = "<i class='fas fa-bolt' style='font-size:84px;'></i>";
@@ -162,4 +195,5 @@ function searchXML() {
                     }
 
         }
+        // Current weather info is used to populate the weather widget on page load.
         window.onload = currentWeather;

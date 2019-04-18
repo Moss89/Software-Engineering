@@ -1,11 +1,20 @@
+/*
+########################################################
+# Author: Tomas Murphy                                 #
+# Description: CSS for the general web page.           #
+# References: The background gradient was taken from   #
+# https://codepen.io/cmd430/pen/yyQgLa. I              #
+########################################################
+*/
+
+/* Main body style */
+
 body {
   background:linear-gradient(90deg, #7474BF 10%, #348AC7 90%);;
   max-width:100%;
   overflow-x: hidden;
 }
-
-
-
+/* Footer style */
 footer {
   background:linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
   padding: 10px;
@@ -14,7 +23,7 @@ footer {
   height: 28%;
   max-width:100%;
 }
-
+/* Header style */
 header{
   background:linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
   padding: 10px;
@@ -23,10 +32,10 @@ header{
   height: 20%;
   max-width:100%;
   display:none;
+  margin-bottom:5px;
 }
 
-
-
+/* Bootstrap CSS container setup */
 .container-fluid {
     padding-right:5px;
     padding-left:5px;
@@ -34,6 +43,7 @@ header{
     margin-left:auto
  }
 
+/* Bootstrap/Flexbox styling */
 .row {
   display: -webkit-box;
   display: -webkit-flex;
@@ -44,6 +54,7 @@ header{
 	 display: flex;
 	 flex-direction: column;
 }
+/* Styling for the bike logo in the footer */
 #footerLogo{
 background:none;
 border:none;
@@ -55,21 +66,26 @@ max-width: 100%;
 height: auto;
 }
 
+/* Styling for the bike logo in the header */
 #headerLogo{
 align: center;
 background:none;
 border:none;
-width: 120px;
-margin-top: 2px;
-margin-bottom: 2px;
+width: 100px;
+margin-top: 5px;
+margin-bottom: 5px;
 max-width: 100%;
 height: auto;
 }
 
-
+/* Ensure image width is 100% to fill containers, and allow for responsive design. */
 img{
 max-width:100%;
 }
+
+/* This CSS changes the layout of the website on resize. The logo moves from the footer to a header,
+   and the time picker widget fits under the weather widget.
+*/
 
 @media only screen and (max-width:1200px){
  #footerLogo{
@@ -78,5 +94,18 @@ max-width:100%;
  #hiddenHeader{
  display:block;
  }
+ }
+/* Styling for the weather picker button */
+
+button {
+display: block;
+margin-top: 15px;
+margin-bottom: 15px;
+background: rgb(42, 178, 234);
+color: white;
+width: 100%;
+font-weight: 700;
 }
+
+
 

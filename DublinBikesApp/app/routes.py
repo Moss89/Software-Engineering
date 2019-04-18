@@ -78,6 +78,7 @@ def get_bike_info():
         day = result[1]
         # Get weather
         weather = helpers.getWeather(t)
+        print(weather)
         # Dictionaries for converting weather strings to numeric representation
         descriptionDict = {'broken clouds': 0,
                            'scattered clouds': 1,

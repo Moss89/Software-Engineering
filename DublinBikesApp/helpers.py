@@ -48,14 +48,10 @@ def getWeather(t):
         "https://api.openweathermap.org/data/2.5/forecast/?q=dublin&APPID=718d1e3d695907c31b9a4b710e8348f5&units=metric&cnt=200&mode=json").text
     # Convert scrape to python dict
     r = loads(r)
-    print("s", t)
-    i = 1
-    # Find correct weather info
-    while t < r["list"][i]["dt"]:
-        print(i)
-        r["list"][i]["main"]["temp"]
-        i += 1
-    print(r["list"][i])
-    return r["list"][i]
-    
-    
+    i = 0
+
+    for i in range(1, len(r["list"])):
+        if t > r["list"][i-1]["dt"] and t < r["list"][i]["dt"]:
+            return r["list"][i]
+
+    return r["list"][0]

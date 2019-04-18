@@ -418,6 +418,10 @@ function getBikeInfo(){
                   //This check is necessary as the station numbers start at 2 and go to 115.
                   if (i >= 20) {
                       k = i + 1
+                  }else {
+                      k = i
+                  }
+                  
                   if (k+2 == MARKERS[j].id) {
                     //Recalculating availability and altering marker colours accordingly.
                     var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
@@ -433,7 +437,6 @@ function getBikeInfo(){
                     MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
                     
                   }
-                }
               }
           }
       },

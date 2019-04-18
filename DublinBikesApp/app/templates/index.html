@@ -382,6 +382,14 @@ function GetTime(){
 
 function getBikeInfo(){
     var date_time = Submit();
+    var currentTime = new Date();
+    var todayDay = currentTime.getDate();
+    var todayMonth = currentTime.getMonth()+1;
+    var todayYear = currentTime.getYear().toString().slice(1,3);
+    var futureDay = date_time[0].slice(8, date_time[0].length);
+    var futureMonth = date_time[0].slice(5, 7);
+    var futureYear = date_time[0].slice(2,4);
+    if (futureDay - todayDay <= 5 && futureMonth == todayMonth && futureYear == todayYear){
     $.ajax({
       type: 'POST',
       contentType: "application/json; charset=utf-8",
@@ -424,6 +432,7 @@ function getBikeInfo(){
           console.log(error);
       }
     });
+    }
 }
 </script>
 

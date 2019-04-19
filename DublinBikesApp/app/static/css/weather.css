@@ -17,7 +17,7 @@
 
 #weather_wrapper{
 	width: 100%;
-    height: 194px;
+    height: 175px;
     border: 5px rgb(42, 178, 234) solid;
     border-radius: 6px;
 }
@@ -29,7 +29,7 @@
 }
 .currentTemp{
 	width: 50%;
-	height: 190px;
+	height: 172px;
 	background: rgb(41, 41, 41);
 	position: absolute;
 	top: 0;
@@ -40,7 +40,7 @@
 
 .currentWeather{
 	width: 50%;
-	height: 190px;
+	height: 172px;
 	background: rgb(237, 237, 237);
 	margin: 0;
 	position: absolute;

@@ -57,11 +57,11 @@
 
     <div class="col-xl-3">
         <!--Date-Time picker - Tom-->
-        <div style="width: 100%; margin-bottom:15px; height: 175px; background: rgb(237, 237, 237);
+        <div style="width: 100%; margin-bottom:10px; height: 175px; background: rgb(237, 237, 237);
         border: 2px rgb(42, 178, 234) solid; border-radius: 6px; text-align: center">
-            <img style="margin-top: 20px" src="{{url_for('static', filename='images/cal.png')}}" width="100px" height="auto" />
+            <img style="margin-top: 3px" src="{{url_for('static', filename='images/cal.png')}}" width="100px" height="auto" />
             <form action="/signUp" method="post" role="form" id="picker">
-        <input style= "margin-top: 5px;" type="date" name="date" id = "date">
+        <input style= "margin-top: 3px;" type="date" name="date" id = "date">
         <input type="time" name="time" id = "time">
                 <button onclick="futureWeather()" id = "timepick" type="button">Submit</button>
             </form>

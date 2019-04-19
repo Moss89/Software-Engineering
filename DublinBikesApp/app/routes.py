@@ -122,7 +122,7 @@ def prediction_day():
     # Returns a tuple containing lat and lng as two 6 decimal floats
     lat = lat_lng[0]
     lng = lat_lng[1]
-    # FInding the specific row in DbStaticInfo relating to the lat and lng provided
+    # Finding the specific row in DbStaticInfo relating to the lat and lng provided
     static_row = DbStaticInfo.query.filter(DbStaticInfo.lat == lat).filter(DbStaticInfo.lng == lng).all()
     static_info = helpers.get_static_data(static_row)
     address = static_info['address']

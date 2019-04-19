@@ -1,7 +1,7 @@
 from app import db
 
 # Models for orm sql stuff
-# IDE sometimes says app stuff doesn't exist but worksS
+# IDE sometimes says app stuff doesn't exist but works
 
 
 class DbStaticInfo(db.Model):

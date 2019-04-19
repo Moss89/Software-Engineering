@@ -57,7 +57,7 @@
 
     <div class="col-xl-3">
         <!--Date-Time picker - Tom-->
-        <div style="width: 100%; margin-bottom:15px; height: 195px; background: rgb(237, 237, 237);
+        <div style="width: 100%; margin-bottom:15px; height: 175px; background: rgb(237, 237, 237);
         border: 2px rgb(42, 178, 234) solid; border-radius: 6px; text-align: center">
             <img style="margin-top: 20px" src="{{url_for('static', filename='images/cal.png')}}" width="100px" height="auto" />
             <form action="/signUp" method="post" role="form" id="picker">
@@ -78,16 +78,18 @@
     var SEARCHING = false;
     //Array for all markers on page
     var MARKERS = new Array();
+    var map;
     //Map Initialisation
     function initMap() {
         var options = {
-            zoom:13.75,
-            center:{lat:53.345,lng:-6.268}
+            zoom:13.25,
+            center:{lat:53.346,lng:-6.268}
         }
     //Add map
-    var map = new google.maps.Map(document.getElementById('map'),options);
-    google.maps.event.addListenerOnce(map, 'idle', function(){jQuery('.gm-style-iw').prev('div').remove();}); 
-    function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown',number){
+    map = new google.maps.Map(document.getElementById('map'),options);
+    function addMarker(coords,address,available_bike_stands='Unknown',available_bikes='Unknown',number,timeout){
+         window.setTimeout(function() {
+        //Choosing the correct image for the icon depending on availability of bikes
         //Choosing the correct image for the icon depending on availability of bikes
         if (available_bike_stands=='Unknown'){
             var photo_icon = './static/images/red_markerC.png';
@@ -109,7 +111,6 @@
         var marker = new google.maps.Marker({
             position:coords,
             map:map,
-            animation: google.maps.Animation.DROP,
             icon:photo_icon,
             id:number,
             stands:available_bike_stands,
@@ -194,7 +195,7 @@
                         y2: "100%",
                         stops: [
                             { offset: '5%', 'stop-color': '#0C0' },
-                            { offset: '50%', 'stop-color': '#ffa500'
+                            { offset: '50%', 'stop-color': '#fff000'
                             },
                             { offset: '95%', 'stop-color': '#B20000' }
                         ]
@@ -350,7 +351,7 @@
                 map.setCenter(marker.getPosition());
             }
         });
-
+         }, timeout);
 }
             {% for item in range(0,len) %}
             var position = {lat:{{lat[item]}},lng:{{lng[item]}}};
@@ -358,7 +359,7 @@
             var bikestands = "{{bikestands[item]}}";
             var available_bikes = "{{available_bikes[item]}}";
             var station_id = "{{number[item]}}";
-             addMarker(position,specific_address,bikestands,available_bikes,station_id);
+             addMarker(position,specific_address,bikestands,available_bikes,station_id,{{item}}*40);
             {% endfor %}
 }
 //Adding event listener to submit button
@@ -381,55 +382,58 @@ function GetTime(){
 }
 
 function getBikeInfo(){
-    var date_time = Submit(),
-        currentTimeEpoch = new Date(),
-        future = date_time.toString().replace(',', ' '),
-        futureEpoch = new Date(future).getTime(),
-        epochDifference = futureEpoch - currentTimeEpoch;
-    // Check that user only inputs date up to 5 days in future and not in the past
-    if (epochDifference > 0 && epochDifference < 432000000){
-        $.ajax({
-            type: 'POST',
-            contentType: "application/json; charset=utf-8",
-            url: '/get_bike_info',
-            data: JSON.stringify({date: date_time[0],time: date_time[1]}),
-            success: function(response) {
-                var response = JSON.parse(response);
-                //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
-                SEARCHING = true;
-                //The response contains an list ordered by station number
-                for (var i = 0; i < 115;i++){
-                    for (var j = 0; j<MARKERS.length;j++){
-                        //This check is necessary as the station numbers start at 2 and go to 115.
-                        if (i >= 20) {
-                            k = i + 1
-                        } else {
-                            k = i
-                        }
+    var date_time = Submit();
+    var currentTime = new Date();
+    var todayDay = currentTime.getDate();
+    var todayMonth = currentTime.getMonth()+1;
+    var todayYear = currentTime.getYear().toString().slice(1,3);
+    var futureDay = date_time[0].slice(8, date_time[0].length);
+    var futureMonth = date_time[0].slice(5, 7);
+    var futureYear = date_time[0].slice(2,4);
+    if (futureDay - todayDay <= 5 && futureMonth == todayMonth && futureYear == todayYear){
+    $.ajax({
+      type: 'POST',
+      contentType: "application/json; charset=utf-8",
+      url: '/get_bike_info',
+      data: JSON.stringify({date: date_time[0],time: date_time[1]}),
+      success: function(response) {
+        var response = JSON.parse(response);
+        //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
+        SEARCHING = true;
+        //The response contains an list ordered by station number
+          for (var i = 0; i < 115;i++){
+              for (var j = 0; j<MARKERS.length;j++){
+                  //This check is necessary as the station numbers start at 2 and go to 115.
+                  if (i >= 20) {
+                      k = i + 1
+                  }else {
+                      k = i
+                  }
 
-                        if (k+2 == MARKERS[j].id) {
-                            //Recalculating availability and altering marker colours accordingly.
-                            var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
-                            if (ratio_bike_to_stands<0.25){
-                                MARKERS[j].setIcon('./static/images/red_markerC.png');
-                            } else if (ratio_bike_to_stands<=0.5){
-                                MARKERS[j].setIcon('./static/images/orange_markerC.png');
-                            } else {
-                                MARKERS[j].setIcon('./static/images/green_markerC.png');
-                            }
-                            MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
-
-                        }
+                  if (k+2 == MARKERS[j].id) {
+                    //Recalculating availability and altering marker colours accordingly.
+                    var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
+                    if (ratio_bike_to_stands<0.25){
+                        MARKERS[j].setIcon('./static/images/red_markerC.png');
                     }
-                }
-            },
-            error: function(error) {
-            console.log(error);
-            }
-        });
+                    else if (ratio_bike_to_stands<=0.5){
+                        MARKERS[j].setIcon('./static/images/orange_markerC.png');
+                    }
+                    else {
+                        MARKERS[j].setIcon('./static/images/green_markerC.png');
+                    }
+                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
+                    
+                  }
+              }
+          }
+      },
+        error: function(error) {
+          console.log(error);
+      }
+    });
     }
 }
-
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"

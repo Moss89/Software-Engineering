@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js" line="0" mnemonic="8" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0772c38-abee-46b5-8b71-74154da129a7" name="Default Changelist" comment="">
+    <list default="true" id="c0772c38-abee-46b5-8b71-74154da129a7" name="Default Changelist" comment="Unit test file added&#10;get bike info tidied up&#10;predictor doesn't run for past now">
+      <change afterPath="$PROJECT_DIR$/DublinBikesApp/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/DublinBikes.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/DublinBikes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/helpers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,31 +27,60 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/base.html">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/helpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+            <state relative-caret-position="489">
+              <caret line="105" selection-start-line="105" selection-end-line="105" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DublinBikesApp/helpers.py">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
+            <state relative-caret-position="450">
+              <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
               <folding>
-                <element signature="e#0#34#0" expanded="true" />
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/routes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="954">
+              <caret line="113" column="21" lean-forward="true" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="126" selection-start-line="8" selection-start-column="126" selection-end-line="8" selection-end-column="126" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="391" column="33" selection-start-line="391" selection-start-column="33" selection-end-line="391" selection-end-column="33" />
+            <state relative-caret-position="5820">
+              <caret line="388" column="82" selection-start-line="388" selection-start-column="82" selection-end-line="388" selection-end-column="82" />
               <folding>
                 <element signature="n#style#0;n#header#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#footer#0;n#!!top" expanded="true" />
@@ -54,20 +96,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/weather.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="171" column="87" selection-start-line="171" selection-start-column="87" selection-end-line="171" selection-end-column="87" />
+            <state relative-caret-position="2595">
+              <caret line="173" column="13" selection-start-line="173" selection-start-column="13" selection-end-line="173" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/routes.py">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="77" selection-start-line="77" selection-end-line="77" />
-              <folding>
-                <element signature="e#0#42#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/DublinBikes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="54" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -76,9 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>marg</find>
-      <find>height</find>
-      <find>hei</find>
       <find>ab</find>
       <find>absol</find>
       <find>abso</find>
@@ -106,6 +160,9 @@
       <find>prediction</find>
       <find>print</find>
       <find>warnin</find>
+      <find>console</find>
+      <find>SEAR</find>
+      <find>dynamic</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,18 +180,20 @@
         <option value="$PROJECT_DIR$/DublinBikeScraper/DBScraper.py" />
         <option value="$PROJECT_DIR$/DublinBikesApp/.flaskenv" />
         <option value="$PROJECT_DIR$/website/weather.css" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/app/models.py" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/app/__init__.py" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/config.py" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/DublinBikes.py" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/helpers.py" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/app/routes.py" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/weather.js" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/requirements.txt" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/app/__init__.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/app/models.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/DublinBikes.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/app/routes.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/config.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/helpers.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/tests.py" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" />
       </list>
     </option>
@@ -150,6 +209,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -175,11 +235,25 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="DublinBikesProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DublinBikesProject" type="462c0819:PsiDirectoryNode" />
+              <item name="DublinBikesApp" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DublinBikesProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DublinBikesProject" type="462c0819:PsiDirectoryNode" />
+              <item name="DublinBikesApp" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -297,7 +371,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555612737715</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="5 day limit imposed">
+      <created>1555619175493</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1555619175493</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -311,7 +392,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="960" y="28" width="960" height="1052" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19399786" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -327,7 +407,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32991204" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49864864" visible="true" weight="0.1349892" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49864864" visible="true" weight="0.2548596" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50135136" side_tool="true" weight="0.22580644" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49864864" weight="0.22580644" />
       <window_info anchor="bottom" id="Messages" order="10" />
@@ -342,7 +422,7 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24594595" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19399786" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -350,15 +430,15 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49932432" weight="0.32991204" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49932432" visible="true" weight="0.32991204" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49864864" weight="0.3240469" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32991204" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49864864" visible="true" weight="0.24486804" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5006757" side_tool="true" weight="0.32991204" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49864864" weight="0.3313783" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49864864" visible="true" weight="0.1349892" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50135136" side_tool="true" weight="0.22580644" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49864864" weight="0.22580644" />
       <window_info anchor="bottom" id="Messages" order="10" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -418,7 +498,8 @@
     <MESSAGE value="Website redesign and responsive design complete." />
     <MESSAGE value="MAchine learning model now get datetime and weather info&#10;Just needs to output results to map" />
     <MESSAGE value="Fixed 3 hr issue with prediction" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed 3 hr issue with prediction" />
+    <MESSAGE value="5 day limit imposed" />
+    <option name="LAST_COMMIT_MESSAGE" value="5 day limit imposed" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/DublinBikeScraper/DBScraper.py">
@@ -484,30 +565,6 @@
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/images/cal.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="14" lean-forward="true" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/.flaskenv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -522,72 +579,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/config.py">
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/.flaskenv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="15">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/requirements.txt" />
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="66" column="10" selection-start-line="66" selection-start-column="10" selection-end-line="66" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="5" column="21" selection-start-line="5" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5925">
-          <caret line="395" column="15" selection-start-line="395" selection-start-column="15" selection-end-line="395" selection-end-column="15" />
+        <state relative-caret-position="525">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/DublinBikes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+        <state relative-caret-position="120">
+          <caret line="8" column="54" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+        <state relative-caret-position="120">
+          <caret line="8" column="126" selection-start-line="8" selection-start-column="126" selection-end-line="8" selection-end-column="126" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/helpers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
+        <state relative-caret-position="489">
+          <caret line="105" selection-start-line="105" selection-end-line="105" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="77" selection-start-line="77" selection-end-line="77" />
+        <state relative-caret-position="954">
+          <caret line="113" column="21" lean-forward="true" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/weather.js">
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="171" column="87" selection-start-line="171" selection-start-column="87" selection-end-line="171" selection-end-column="87" />
+        <state relative-caret-position="450">
+          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="391" column="33" selection-start-line="391" selection-start-column="33" selection-end-line="391" selection-end-column="33" />
+        <state relative-caret-position="5820">
+          <caret line="388" column="82" selection-start-line="388" selection-start-column="82" selection-end-line="388" selection-end-column="82" />
           <folding>
             <element signature="n#style#0;n#header#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#footer#0;n#!!top" expanded="true" />
@@ -598,6 +676,16 @@
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/weather.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2595">
+          <caret line="173" column="13" selection-start-line="173" selection-start-column="13" selection-end-line="173" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/DublinBikes.js">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">

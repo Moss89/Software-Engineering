@@ -1,5 +1,8 @@
 from app import db
 
+# Models for orm sql stuff
+# IDE sometimes says app stuff doesn't exist but worksS
+
 
 class DbStaticInfo(db.Model):
     __tablename__ = "DbStaticInfo"

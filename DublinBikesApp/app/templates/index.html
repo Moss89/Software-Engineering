@@ -381,59 +381,55 @@ function GetTime(){
 }
 
 function getBikeInfo(){
-    var date_time = Submit();
-    var currentTime = new Date();
-    var todayDay = currentTime.getDate();
-    var todayMonth = currentTime.getMonth()+1;
-    var todayYear = currentTime.getYear().toString().slice(1,3);
-    var futureDay = date_time[0].slice(8, date_time[0].length);
-    var futureMonth = date_time[0].slice(5, 7);
-    var futureYear = date_time[0].slice(2,4);
-    if (futureDay - todayDay <= 5 && futureMonth == todayMonth && futureYear == todayYear){
-    $.ajax({
-      type: 'POST',
-      contentType: "application/json; charset=utf-8",
-      url: '/get_bike_info',
-      data: JSON.stringify({date: date_time[0],time: date_time[1]}),
-      success: function(response) {
-        var response = JSON.parse(response);
-        console.log(response);
-        //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
-        SEARCHING = true;
-        //The response contains an list ordered by station number
-          for (var i = 0; i < 115;i++){
-              for (var j = 0; j<MARKERS.length;j++){
-                  //This check is necessary as the station numbers start at 2 and go to 115.
-                  if (i >= 20) {
-                      k = i + 1
-                  }else {
-                      k = i
-                  }
+    var date_time = Submit(),
+        currentTimeEpoch = new Date(),
+        future = date_time.toString().replace(',', ' '),
+        futureEpoch = new Date(future).getTime(),
+        epochDifference = futureEpoch - currentTimeEpoch;
+    // Check that user only inputs date up to 5 days in future and not in the past
+    if (epochDifference > 0 && epochDifference < 432000000){
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: '/get_bike_info',
+            data: JSON.stringify({date: date_time[0],time: date_time[1]}),
+            success: function(response) {
+                var response = JSON.parse(response);
+                //Setting SEARCHING to true as otherwise the infoWindow would update on click overwritting the following steps.
+                SEARCHING = true;
+                //The response contains an list ordered by station number
+                for (var i = 0; i < 115;i++){
+                    for (var j = 0; j<MARKERS.length;j++){
+                        //This check is necessary as the station numbers start at 2 and go to 115.
+                        if (i >= 20) {
+                            k = i + 1
+                        } else {
+                            k = i
+                        }
 
-                  if (k+2 == MARKERS[j].id) {
-                    //Recalculating availability and altering marker colours accordingly.
-                    var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
-                    if (ratio_bike_to_stands<0.25){
-                        MARKERS[j].setIcon('./static/images/red_markerC.png');
+                        if (k+2 == MARKERS[j].id) {
+                            //Recalculating availability and altering marker colours accordingly.
+                            var ratio_bike_to_stands = response.bikes[i]/MARKERS[j].stands;
+                            if (ratio_bike_to_stands<0.25){
+                                MARKERS[j].setIcon('./static/images/red_markerC.png');
+                            } else if (ratio_bike_to_stands<=0.5){
+                                MARKERS[j].setIcon('./static/images/orange_markerC.png');
+                            } else {
+                                MARKERS[j].setIcon('./static/images/green_markerC.png');
+                            }
+                            MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
+
+                        }
                     }
-                    else if (ratio_bike_to_stands<=0.5){
-                        MARKERS[j].setIcon('./static/images/orange_markerC.png');
-                    }
-                    else {
-                        MARKERS[j].setIcon('./static/images/green_markerC.png');
-                    }
-                    MARKERS[j].info='<h3>'+response.address[i]+'</h3><br><p>Number of bikestands:'+MARKERS[j].stands+'</p><br><p>Predicted number of bikes:'+response.bikes[i]+'</p>';
-                    
-                  }
-              }
-          }
-      },
-        error: function(error) {
-          console.log(error);
-      }
-    });
+                }
+            },
+            error: function(error) {
+            console.log(error);
+            }
+        });
     }
 }
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYZPR-bZ82RtqEpm2Zot3kMNaEZwxGKgM&callback=initMap"

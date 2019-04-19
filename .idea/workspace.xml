@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c0772c38-abee-46b5-8b71-74154da129a7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -80,11 +78,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="77" column="11" selection-start-line="77" selection-start-column="11" selection-end-line="77" selection-end-column="11" />
+            <state relative-caret-position="401">
+              <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="57" column="25" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -150,7 +157,6 @@
         <option value="$PROJECT_DIR$/DublinBikesApp/.flaskenv" />
         <option value="$PROJECT_DIR$/website/weather.css" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/weather.js" />
-        <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" />
         <option value="$PROJECT_DIR$/DublinBikesApp/requirements.txt" />
         <option value="$PROJECT_DIR$/DublinBikesApp/DublinBikes.txt" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/__init__.py" />
@@ -164,6 +170,7 @@
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/css/weather.css" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/index.html" />
         <option value="$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css" />
+        <option value="$PROJECT_DIR$/DublinBikesApp/app/templates/base.html" />
       </list>
     </option>
   </component>
@@ -352,7 +359,14 @@
       <option name="project" value="LOCAL" />
       <updated>1555619175493</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fixed issue with website scaling on EC2 instance">
+      <created>1555662949613</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1555662949613</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView">
@@ -474,7 +488,8 @@
     <MESSAGE value="MAchine learning model now get datetime and weather info&#10;Just needs to output results to map" />
     <MESSAGE value="Fixed 3 hr issue with prediction" />
     <MESSAGE value="5 day limit imposed" />
-    <option name="LAST_COMMIT_MESSAGE" value="5 day limit imposed" />
+    <MESSAGE value="Fixed issue with website scaling on EC2 instance" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with website scaling on EC2 instance" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/flask_app/flask.py">
@@ -538,13 +553,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/requirements.txt" />
-    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="10" selection-start-line="66" selection-start-column="10" selection-end-line="66" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -651,8 +659,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/static/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="77" column="11" selection-start-line="77" selection-start-column="11" selection-end-line="77" selection-end-column="11" />
+        <state relative-caret-position="401">
+          <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DublinBikesApp/app/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="57" column="25" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
         </state>
       </provider>
     </entry>
